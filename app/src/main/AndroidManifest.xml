@@ -13,9 +13,13 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".info.InfoActivity" />
+        <activity android:name=".hiscore.HiscoreActivity" />
+        <activity android:name=".info.SensorInfoActivity"></activity>
     </application>
 
 </manifest>

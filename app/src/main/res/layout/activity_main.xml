@@ -4,12 +4,55 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="@color/military_green"
     android:orientation="vertical"
     tools:context="fr.ups.overdrill.MainActivity">
 
-    <TextView
-        android:text="OVERDRILL"
+    <!-- Content Layout -->
+    <LinearLayout
+        android:id="@+id/main_ContentLayout"
         android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <!-- Button layout -->
+    <LinearLayout
+        android:id="@+id/main_ButtonLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <!-- Info Icon -->
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_info"/>
+
+        <!-- Music Icon -->
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_music"/>
+
+        <!-- Trophy Icon -->
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_trophy"/>
+
+    </LinearLayout>
+
+
 </LinearLayout>
