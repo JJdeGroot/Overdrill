@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_info"
+        android:icon="@drawable/icon_info"
+        app:showAsAction="always"
+        android:title="@string/action_info" />
+
+    <item
+        android:id="@+id/action_sound"
+        android:icon="@drawable/icon_music"
+        app:showAsAction="always"
+        android:title="@string/action_sound" />
+
+    <item
+        android:id="@+id/action_hiscore"
+        android:icon="@drawable/icon_trophy"
+        app:showAsAction="always"
+        android:title="@string/action_hiscore" />
+
+</menu>

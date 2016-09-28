@@ -3,4 +3,10 @@
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- Menu -->
+    <string name="action_info">Information</string>
+    <string name="action_sound">Play sound?</string>
+    <string name="action_hiscore">Hiscores</string>
+
 </resources>
