@@ -1,16 +1,16 @@
 # Overdrill
 ## Advanced Programming of Interactive Systems - Group project
 
-Overdrill is a game where the player(s) need to follow the orders of a Drill Sergeant. As you might have guessed, the name of the game is a combination of the words overkill and drill.
+Overdrill is a game where the player(s) need to follow the orders of a Drill Sergeant. As you might have guessed, the name of the game is a combination of the words overkill and drill. These words refer to doing something excessively and doing it repeatedly - wether you want it or not.
 
 ## Game Wiki
-[Game Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Overdrill)
+More information about the game can be found in the [Game Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Overdrill).
 
 ## Installation
-[Installation Guide](https://github.com/JJdeGroot/Overdrill/wiki/Installation-Guide)
+More information about the installation can be found in the [Installation Guide](https://github.com/JJdeGroot/Overdrill/wiki/Installation-Guide).
 
 ## Sensoraction Library
-[Sensoraction Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Sensoraction-Library)
+The core component of the game is based on various sensors. We have written a library that takes care of many sensor events. More information can be found in the [Sensoraction Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Sensoraction-Library).
 
 ## License
 ```
