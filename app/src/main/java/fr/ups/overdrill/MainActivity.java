@@ -36,6 +36,10 @@ public class MainActivity extends SensorActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * TODO: Registering should return a boolean if it was successful
+         */
+        
         // ShakeListener
         registerShakeListener();
 
