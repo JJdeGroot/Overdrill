@@ -16,17 +16,15 @@ import fr.ups.sensoractions.SensorActionManager;
 import fr.ups.sensoractions.listeners.ButtonListener;
 import fr.ups.sensoractions.listeners.LuxListener;
 import fr.ups.sensoractions.listeners.ShakeListener;
+import fr.ups.sensoractions.utils.SensorActivity;
 
 /**
  * Main activity
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SensorActivity {
 
     private static final int REQUEST_CODE_INFO = 1,
-            REQUEST_CODE_HISCORE = 2;
-
-    private SensorManager sensorManager;
-    private SensorActionManager sensorActionManager;
+                             REQUEST_CODE_HISCORE = 2;
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
@@ -38,48 +36,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Listen to sensor actions
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensorActionManager = new SensorActionManager();
+        // ShakeListener
+        registerShakeListener();
 
-        // TODO: Move that stuff to a better and nicer place. Create a factory?
-        // TODO: What if we move that into the library, but don't think so....
-        // register a shake listener
-        ShakeListener shakeListener = new ShakeListener();
-        shakeListener.setOnSensorActionListener(new ShakeListener.OnShakeListener() {
-            @Override
-            public void onShake() {
-                handleShakeEvent();
-            }
-        });
-        sensorActionManager.registerSensorEventListener(shakeListener);
+        // Button Listener
+        registerButtonListener();
 
-        // register a button listener
-        ButtonListener buttonListener = new ButtonListener();
-        buttonListener.setOnSensorActionListener(new ButtonListener.OnButtonListener() {
-            @Override
-            public void onVolumeUp() {
-                handleVolumeUpEvent();
-            }
-
-            @Override
-            public void onVolumeDown() {
-                handleVolumeDownEvent();
-            }
-        });
-        sensorActionManager.registerSensorEventListener(buttonListener);
-
-        // register a camera listener
-        LuxListener luxListener = new LuxListener();
-        luxListener.setOnSensorActionListener(new LuxListener.OnLuxListener() {
-
-            @Override
-            public void onLightDark() {
-                handleLightDark();
-            }
-        });
-        sensorActionManager.registerSensorEventListener(luxListener);
-
+        // Lux listener
+        registerLuxListener();
     }
 
     @Override
@@ -108,35 +72,30 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sensorActionManager.onResumeSensorActions(sensorManager);
-    }
+    // Shake callback
 
     @Override
-    protected void onPause() {
-        sensorActionManager.onPauseSensorActions(sensorManager);
-        super.onPause();
-    }
-
     public void handleShakeEvent() {
         Toast.makeText(MainActivity.this, "SHAKE", Toast.LENGTH_SHORT).show();
     }
 
+    // Button callback
+
+    @Override
     public void handleVolumeUpEvent() {
         Toast.makeText(MainActivity.this, "Volume UP", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
     public void handleVolumeDownEvent() {
         Toast.makeText(MainActivity.this, "Volume DOWN", Toast.LENGTH_SHORT).show();
     }
 
+    // Lux callback
+
+    @Override
     public void handleLightDark() {
         Toast.makeText(MainActivity.this, "Front Camera Dark", Toast.LENGTH_SHORT).show();
     }
 
-    public void handleRearCameraDark() {
-        Toast.makeText(MainActivity.this, "Rear Camera Dark", Toast.LENGTH_SHORT).show();
-    }
 }
