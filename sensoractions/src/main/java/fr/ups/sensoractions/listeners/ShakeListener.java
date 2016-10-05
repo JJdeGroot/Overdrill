@@ -9,7 +9,7 @@ import android.hardware.SensorEvent;
  */
 public class ShakeListener implements SensorActionListener {
 
-    private static final int MIN_MOVEMENT = 20; // minimal movement from x, y & z axis
+    private static final int MIN_MOVEMENT = 15; // minimal movement from x, y & z axis
 
     private static final int MIN_DIRECTION_CHANGE = 5; // minimum times the shake gesture has to change directions
 

@@ -1,10 +1,7 @@
 package fr.ups.overdrill;
 
-import android.content.Context;
 import android.content.Intent;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,11 +9,7 @@ import android.widget.Toast;
 
 import fr.ups.overdrill.hiscore.HiscoreActivity;
 import fr.ups.overdrill.info.InfoActivity;
-import fr.ups.sensoractions.SensorActionManager;
-import fr.ups.sensoractions.listeners.ButtonListener;
-import fr.ups.sensoractions.listeners.LuxListener;
-import fr.ups.sensoractions.listeners.ShakeListener;
-import fr.ups.sensoractions.utils.SensorActivity;
+import fr.ups.sensoractions.SensorActivity;
 
 /**
  * Main activity

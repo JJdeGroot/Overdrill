@@ -1,4 +1,4 @@
-package fr.ups.sensoractions.utils;
+package fr.ups.sensoractions;
 
 import android.content.Context;
 import android.hardware.SensorManager;

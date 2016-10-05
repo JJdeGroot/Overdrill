@@ -9,6 +9,7 @@ import java.util.List;
 
 import fr.ups.sensoractions.listeners.ActionListener;
 import fr.ups.sensoractions.listeners.SensorActionListener;
+import fr.ups.sensoractions.utils.SensorActionConfiguration;
 
 /**
  * TODO
@@ -17,6 +18,8 @@ import fr.ups.sensoractions.listeners.SensorActionListener;
 public class SensorActionManager {
 
     private List<ActionListener> sensorActionList = new ArrayList<>();
+
+    private SensorActionConfiguration sensorActionConfiguration;
 
     public SensorActionManager() {
     }
@@ -61,14 +64,4 @@ public class SensorActionManager {
             }
         }
     }
-
-    /**
-     * Returns the sensor action list
-     *
-     * @return List of all the registered sensors
-     */
-    public List<ActionListener> getSensors() {
-        return sensorActionList;
-    }
-
 }
