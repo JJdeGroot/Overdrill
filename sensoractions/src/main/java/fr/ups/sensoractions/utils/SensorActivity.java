@@ -3,7 +3,6 @@ package fr.ups.sensoractions.utils;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
 import fr.ups.sensoractions.SensorActionManager;
@@ -21,8 +20,8 @@ public abstract class SensorActivity extends AppCompatActivity {
     private SensorActionManager sensorActionManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.sensorActionManager = new SensorActionManager();
     }
