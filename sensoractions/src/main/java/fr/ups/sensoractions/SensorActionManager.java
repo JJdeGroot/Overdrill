@@ -71,15 +71,4 @@ public class SensorActionManager {
         return sensorActionList;
     }
 
-    /**
-     * TODO: Is possible?
-     *
-     * @param androidVersion
-     * @return
-     */
-    public List<ActionListener> getAllSupportedSensors(String androidVersion) {
-        return null;
-    }
-
-
 }
