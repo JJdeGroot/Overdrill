@@ -1,11 +1,16 @@
 package fr.ups.sensoractions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import fr.ups.sensoractions.SensorActionManager;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.ups.sensoractions.listeners.ButtonListener;
 import fr.ups.sensoractions.listeners.LuxListener;
 import fr.ups.sensoractions.listeners.ShakeListener;
@@ -19,11 +24,27 @@ public abstract class SensorActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private SensorActionManager sensorActionManager;
 
+    public static final String EXTRA_SENSOR_CONFIG = "sensorActionConfig";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO
+        Serializable serializable = getIntent().getSerializableExtra(EXTRA_SENSOR_CONFIG);
+        if (serializable != null) {
+            List<Integer> sensorListeners = (ArrayList<Integer>) serializable;
+            this.sensorActionManager = new SensorActionManager(sensorListeners);
+
+        } else if (false) {
+            // TODO check for a configuration
+            this.sensorActionManager = new SensorActionManager();
+
+        } else {
+            this.sensorActionManager = new SensorActionManager();
+        }
+
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.sensorActionManager = new SensorActionManager();
     }
 
     /***** STATES *****/

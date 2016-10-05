@@ -1,6 +1,5 @@
 package fr.ups.sensoractions;
 
-import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
@@ -9,7 +8,6 @@ import java.util.List;
 
 import fr.ups.sensoractions.listeners.ActionListener;
 import fr.ups.sensoractions.listeners.SensorActionListener;
-import fr.ups.sensoractions.utils.SensorActionConfiguration;
 
 /**
  * TODO
@@ -19,9 +17,11 @@ public class SensorActionManager {
 
     private List<ActionListener> sensorActionList = new ArrayList<>();
 
-    private SensorActionConfiguration sensorActionConfiguration;
-
     public SensorActionManager() {
+    }
+
+    public SensorActionManager(List<Integer> listeners) {
+        // TODO for having a config
     }
 
     //TODO: Check if it is already registered
@@ -63,5 +63,25 @@ public class SensorActionManager {
                 sensorManager.unregisterListener(sensorListener);
             }
         }
+    }
+
+    public void registerListener(List<Integer> listenerList) {
+        for (int listener : listenerList) {
+            registerListener(listener);
+        }
+    }
+
+    public void registerListener(int listener) {
+        //TODO
+    }
+
+    public void deregisterListener(List<Integer> listenerList) {
+        for (int listener : listenerList) {
+            deregisterListener(listener);
+        }
+    }
+
+    public void deregisterListener(int listener) {
+        // TODO
     }
 }
