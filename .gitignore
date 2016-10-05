@@ -11,3 +11,5 @@
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
 *.xml
+
+.idea/gradle.xml

@@ -10,16 +10,22 @@
         android:theme="@style/AppTheme">
 
         <!-- MainActivity -->
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".info.InfoActivity" />
-        <activity android:name=".hiscore.HiscoreActivity" />
-        <activity android:name=".info.SensorInfoActivity"></activity>
+
+        <!-- Info -->
+        <activity android:name=".info.InfoActivity" android:screenOrientation="portrait" />
+
+        <!-- Hiscore -->
+        <activity android:name=".hiscore.HiscoreActivity" android:screenOrientation="portrait" />
+
+        <!-- Info: sensor -->
+        <activity android:name=".info.SensorInfoActivity" android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
