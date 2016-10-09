@@ -9,11 +9,14 @@ import android.hardware.SensorEvent;
  */
 public class LuxListener implements SensorActionListener {
 
-    // OnCameraListener that is called when the camera is detected.
+    // OnLuxListener that is called when the light sensor is detected.
     private OnLuxListener luxListener;
 
+    // Ambient light level in SI lux units
+    private final int MAX_LIGHT_QUANTITY = 5;
+
     /**
-     * The camera interface.
+     * The light sensor interface.
      * Implements methods related to camera and light.
      */
     public interface OnLuxListener {
@@ -38,7 +41,7 @@ public class LuxListener implements SensorActionListener {
         float lightQuantity = se.values[0];
 
         //TODO CONSTANT
-        if (lightQuantity < 5) {
+        if (lightQuantity < MAX_LIGHT_QUANTITY) {
             luxListener.onLightDark();
         }
     }

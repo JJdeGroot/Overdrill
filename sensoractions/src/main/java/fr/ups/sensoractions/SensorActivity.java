@@ -6,48 +6,87 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.ups.sensoractions.listeners.ButtonListener;
 import fr.ups.sensoractions.listeners.LuxListener;
 import fr.ups.sensoractions.listeners.ShakeListener;
+import fr.ups.sensoractions.utils.SensorListenerTypes;
 
 /**
  * Abstract activity which provides easy access to sensor actions
- * Created by JJ on 05/10/2016.
  */
 public abstract class SensorActivity extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private SensorActionManager sensorActionManager;
 
-    public static final String EXTRA_SENSOR_CONFIG = "sensorActionConfig";
+    public static final String EXTRA_SENSOR_CONFIG = "sensorActionConfiguration";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO
-        Serializable serializable = getIntent().getSerializableExtra(EXTRA_SENSOR_CONFIG);
-        if (serializable != null) {
-            List<Integer> sensorListeners = (ArrayList<Integer>) serializable;
-            this.sensorActionManager = new SensorActionManager(sensorListeners);
+        // read the listener list from a putted extra
+        // if none is passed then check for a configuration file
+        // if none is found then initialize a SensorActionManager with all listeners
+        List<Integer> listenerList = new ArrayList<>();
+        this.sensorActionManager = new SensorActionManager();
 
-        } else if (false) {
-            // TODO check for a configuration
+        Intent myIntent = getIntent();
+        String listenerStr = myIntent.getStringExtra(EXTRA_SENSOR_CONFIG);
+
+        if (listenerStr != null) {
+            for (String s : listenerStr.split(",")) {
+                listenerList.add(Integer.parseInt(s));
+            }
+
+        } else if (false) { // TODO: How can I access the config file easily???
+            /*
+            List<Integer> integerList = res.getIntArray(R.array.sensorActionConfiguration);
             this.sensorActionManager = new SensorActionManager();
+            */
 
         } else {
-            this.sensorActionManager = new SensorActionManager();
+            listenerList.addAll(SensorListenerTypes.getAllListeners());
         }
 
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        // register the action listeners
+        registerActionListeners(listenerList);
     }
 
-    /***** STATES *****/
+    /**
+     * Registers the action listener based on the integer array passed.
+     * The integer array reflects values from SensorListenerType.class.
+     *
+     * @param listenerList array with action listener id's
+     */
+    private void registerActionListeners(List<Integer> listenerList) {
+        for (int listenerId : listenerList) {
+
+            switch (listenerId) {
+                case 1:
+                    registerLuxListener();
+                    break;
+
+                case 2: //TODO registerCameraListener();
+                    break;
+
+                case 3:
+                    registerShakeListener();
+                    break;
+
+                case 4:
+                    registerButtonListener();
+                    break;
+            }
+        }
+    }
+
+    // STATES --------------------------------------------------------------------------------------
     @Override
     protected void onStart() {
         super.onStart();
@@ -75,12 +114,9 @@ public abstract class SensorActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /***** SHAKE LISTENER *****/
 
-    /**
-     * Registering a shake listener
-     */
-    protected void registerShakeListener() {
+    // SHAKE LISTENER ------------------------------------------------------------------------------
+    private void registerShakeListener() {
         ShakeListener shakeListener = new ShakeListener();
         shakeListener.setOnSensorActionListener(new ShakeListener.OnShakeListener() {
             @Override
@@ -88,7 +124,7 @@ public abstract class SensorActivity extends AppCompatActivity {
                 handleShakeEvent();
             }
         });
-        sensorActionManager.registerSensorEventListener(shakeListener);
+        sensorActionManager.addSensorEventListener(shakeListener);
     }
 
     /**
@@ -96,8 +132,8 @@ public abstract class SensorActivity extends AppCompatActivity {
      */
     protected abstract void handleShakeEvent();
 
-    /***** BUTTON LISTENER *****/
-    protected void registerButtonListener() {
+    // BUTTON LISTENER -----------------------------------------------------------------------------
+    private void registerButtonListener() {
         ButtonListener buttonListener = new ButtonListener();
         buttonListener.setOnSensorActionListener(new ButtonListener.OnButtonListener() {
             @Override
@@ -110,7 +146,7 @@ public abstract class SensorActivity extends AppCompatActivity {
                 handleVolumeDownEvent();
             }
         });
-        sensorActionManager.registerSensorEventListener(buttonListener);
+        sensorActionManager.addSensorEventListener(buttonListener);
     }
 
     /**
@@ -123,8 +159,8 @@ public abstract class SensorActivity extends AppCompatActivity {
      */
     protected abstract void handleVolumeDownEvent();
 
-    /***** LUX LISTENER *****/
-    protected void registerLuxListener() {
+    // LUX LISTENER --------------------------------------------------------------------------------
+    private void registerLuxListener() {
         LuxListener luxListener = new LuxListener();
         luxListener.setOnSensorActionListener(new LuxListener.OnLuxListener() {
 
@@ -133,7 +169,7 @@ public abstract class SensorActivity extends AppCompatActivity {
                 handleLightDark();
             }
         });
-        sensorActionManager.registerSensorEventListener(luxListener);
+        sensorActionManager.addSensorEventListener(luxListener);
     }
 
     /**

@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.ups.overdrill.hiscore.HiscoreActivity;
 import fr.ups.overdrill.info.InfoActivity;
 import fr.ups.sensoractions.SensorActivity;
@@ -26,21 +29,12 @@ public class MainActivity extends SensorActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // set configuration for registering listener over extra intent
+        String listenerList = "1,3";
+        getIntent().putExtra(SensorActivity.EXTRA_SENSOR_CONFIG, listenerList);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        /**
-         * TODO: Registering should return a boolean if it was successful
-         */
-        
-        // ShakeListener
-        registerShakeListener();
-
-        // Button Listener
-        registerButtonListener();
-
-        // Lux listener
-        registerLuxListener();
     }
 
     @Override
@@ -92,7 +86,7 @@ public class MainActivity extends SensorActivity {
 
     @Override
     public void handleLightDark() {
-        Toast.makeText(MainActivity.this, "Front Camera Dark", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Light Sensor is Dark", Toast.LENGTH_SHORT).show();
     }
 
 }

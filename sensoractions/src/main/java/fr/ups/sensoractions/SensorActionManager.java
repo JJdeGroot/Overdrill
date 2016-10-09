@@ -20,24 +20,33 @@ public class SensorActionManager {
     public SensorActionManager() {
     }
 
-    public SensorActionManager(List<Integer> listeners) {
-        // TODO for having a config
-    }
-
-    //TODO: Check if it is already registered
-    public void registerSensorEventListener(ActionListener eventListener) {
-        if (eventListener != null) {
-            sensorActionList.add(eventListener);
+    /**
+     * Adds an action listener to the sensorActionList.
+     *
+     * @param actionListener an ActionListener instance
+     */
+    public void addSensorEventListener(ActionListener actionListener) {
+        if (actionListener != null) {
+            sensorActionList.add(actionListener);
         }
     }
 
-    //TODO remove eventListener
+    /**
+     * Removes an action listener to the sensorActionList.
+     *
+     * @param actionListener an ActionListener instance
+     */
+    public void removeSensorEventListener(ActionListener actionListener) {
+        if (actionListener != null) {
+            sensorActionList.remove(actionListener);
+        }
+    }
 
     /**
      * Register all the listeners when the android application resumes.
      * This helps with battery consumption.
      *
-     * @param sensorManager
+     * @param sensorManager SensorManager instance
      */
     public void onResumeSensorActions(SensorManager sensorManager) {
         for (ActionListener listener : sensorActionList) {
@@ -54,7 +63,7 @@ public class SensorActionManager {
      * Deregister all the listeners when the android application pauses.
      * This helps with battery consumption.
      *
-     * @param sensorManager
+     * @param sensorManager SensorManager instance
      */
     public void onPauseSensorActions(SensorManager sensorManager) {
         for (ActionListener listener : sensorActionList) {
@@ -63,25 +72,5 @@ public class SensorActionManager {
                 sensorManager.unregisterListener(sensorListener);
             }
         }
-    }
-
-    public void registerListener(List<Integer> listenerList) {
-        for (int listener : listenerList) {
-            registerListener(listener);
-        }
-    }
-
-    public void registerListener(int listener) {
-        //TODO
-    }
-
-    public void deregisterListener(List<Integer> listenerList) {
-        for (int listener : listenerList) {
-            deregisterListener(listener);
-        }
-    }
-
-    public void deregisterListener(int listener) {
-        // TODO
     }
 }

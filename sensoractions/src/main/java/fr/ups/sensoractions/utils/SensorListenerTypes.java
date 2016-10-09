@@ -6,9 +6,9 @@ import java.util.List;
 public class SensorListenerTypes {
 
     public static final int LISTENER_LUX = 1;
-    public static final int LISTENER_CAMERA = 1;
-    public static final int LISTENER_SHAKE = 1;
-    public static final int LISTENER_BUTTON = 1;
+    public static final int LISTENER_CAMERA = 2;
+    public static final int LISTENER_SHAKE = 3;
+    public static final int LISTENER_BUTTON = 4;
 
     public static List<Integer> getAllListeners() {
         List<Integer> listeners = new ArrayList<>();
