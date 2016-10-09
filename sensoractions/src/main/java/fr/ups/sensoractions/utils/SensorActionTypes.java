@@ -3,7 +3,7 @@ package fr.ups.sensoractions.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SensorListenerTypes {
+public class SensorActionTypes {
 
     public static final int LISTENER_LUX = 1;
     public static final int LISTENER_CAMERA = 2;

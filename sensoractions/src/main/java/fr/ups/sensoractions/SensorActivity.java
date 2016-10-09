@@ -12,7 +12,7 @@ import java.util.List;
 import fr.ups.sensoractions.listeners.ButtonListener;
 import fr.ups.sensoractions.listeners.LuxListener;
 import fr.ups.sensoractions.listeners.ShakeListener;
-import fr.ups.sensoractions.utils.SensorListenerTypes;
+import fr.ups.sensoractions.utils.SensorActionTypes;
 
 /**
  * Abstract activity which provides easy access to sensor actions
@@ -49,7 +49,7 @@ public abstract class SensorActivity extends AppCompatActivity {
             */
 
         } else {
-            listenerList.addAll(SensorListenerTypes.getAllListeners());
+            listenerList.addAll(SensorActionTypes.getAllListeners());
         }
 
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
