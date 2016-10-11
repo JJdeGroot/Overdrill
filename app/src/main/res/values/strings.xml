@@ -4,9 +4,18 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="game_over">GAME OVER.\nCLICK TO RE-TRY.</string>
+    <string name="new_game">NEW GAME IS STARTING.</string>
+
     <!-- Menu -->
     <string name="action_info">Information</string>
     <string name="action_sound">Play sound?</string>
     <string name="action_hiscore">Hiscores</string>
+
+    <!-- Tasks -->
+    <string name="task_shake">SHAKE YOUR DEVICE</string>
+    <string name="task_volume_up">PRESS VOLUME UP</string>
+    <string name="task_volume_down">PRESS VOLUME DOWN</string>
+    <string name="task_cover_light_sensor">COVER THE LIGHT SENSOR</string>
 
 </resources>
