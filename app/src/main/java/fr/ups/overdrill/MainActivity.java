@@ -105,11 +105,6 @@ public class MainActivity extends SensorActivity implements TaskCallback {
         toast.show();
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return super.onKeyUp(keyCode, event);
-    }
-
     // Shake callback
 
     @Override

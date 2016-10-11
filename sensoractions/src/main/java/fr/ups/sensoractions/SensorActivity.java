@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +148,20 @@ public abstract class SensorActivity extends AppCompatActivity {
             }
         });
         sensorActionManager.addSensorEventListener(buttonListener);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            handleVolumeUpEvent();
+            return true;
+        }
+
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            handleVolumeDownEvent();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
