@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.game.Task;
 import fr.ups.overdrill.game.TaskCallback;
@@ -52,8 +54,15 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     @Override
-    protected Interaction[] getInteractions() {
-        return Interaction.values();
+    protected ArrayList<Interaction> getInteractions() {
+        ArrayList<Interaction> list = new ArrayList<Interaction>();
+
+        Interaction[] interactions = Interaction.values();
+        for(Interaction interaction : interactions) {
+            list.add(interaction);
+        }
+
+        return list;
     }
 
     @Override
@@ -81,7 +90,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
             startActivityForResult(intent, REQUEST_CODE_INFO);
         } else if (id == R.id.action_sound) {
             // Sound
-            // TODO: Change sound setting
+            // TODO: Toggle sound
         } else if (id == R.id.action_hiscore) {
             // Hisores
             Intent intent = new Intent(this, HiscoreActivity.class);
@@ -100,7 +109,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         Log.d(TAG, message);
 
         // Toast
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, message, 500);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

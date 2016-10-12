@@ -6,7 +6,7 @@ import android.hardware.SensorEvent;
 /**
  * LuxListener: listens to changes in light sensitivity.
  */
-public class LuxListener implements SensorActionListener {
+public class LuxListener implements SensorInteractionListener {
 
     // OnLuxListener that is called when the light sensor is detected.
     private OnLuxListener luxListener;

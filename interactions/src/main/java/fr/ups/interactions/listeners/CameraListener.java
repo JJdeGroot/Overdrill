@@ -3,7 +3,7 @@ package fr.ups.interactions.listeners;
 /**
  * CameraListener: listens to camera actions
  */
-public class CameraListener implements DeviceActionListener {
+public class CameraListener implements DeviceInteractionListener {
 
     // OnCameraListener that is called when the camera is detected.
     private OnCameraListener cameraListener;

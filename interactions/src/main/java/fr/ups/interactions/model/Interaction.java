@@ -8,9 +8,8 @@ public enum Interaction {
     LUX(1),
     CAMERA(2),
     SHAKE(3),
-    BUTTON(4),
-    VOLUME_UP(5),
-    VOLUME_DOWN(6);
+    VOLUME_UP(4),
+    VOLUME_DOWN(5);
 
     private int id;
 

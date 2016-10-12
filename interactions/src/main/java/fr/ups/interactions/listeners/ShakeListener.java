@@ -2,32 +2,21 @@ package fr.ups.interactions.listeners;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
+import android.util.FloatMath;
 
 /**
  * ShakeListener: listens for shake events.tc
  */
-public class ShakeListener implements SensorActionListener {
+public class ShakeListener implements SensorInteractionListener {
 
-    private static final int MIN_MOVEMENT = 15; // minimal movement from x, y & z axis
+    // Shake detection settings
+    private static final float SHAKE_THRESHOLD_GRAVITY = 2.7F;
+    private static final int SHAKE_SLOP_TIME_MS = 500;
+    private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
 
-    private static final int MIN_DIRECTION_CHANGE = 5; // minimum times the shake gesture has to change directions
-
-    private static final int MAX_DURATION_OF_SHAKE = 400; // maximum allowed time for shake gesture
-
-    // first gesture starting time
-    private long firstChangeTime = 0;
-
-    // how many movements are considered so far.
-    private int directionChangeCount = 0;
-
-    // the last x position.
-    private float lastX = 0;
-
-    // the last y position.
-    private float lastY = 0;
-
-    // the last z position.
-    private float lastZ = 0;
+    private long mShakeTimestamp;
+    private int mShakeCount;
 
     // OnShakeListener that is called when shake is detected.
     private OnShakeListener shakeListener;
@@ -54,70 +43,49 @@ public class ShakeListener implements SensorActionListener {
     }
 
     @Override
-    public void onSensorChanged(SensorEvent se) {
-        // get axis data from the sensor
-        float x = se.values[0];
-        float y = se.values[1];
-        float z = se.values[2];
-
-        // calculate movement
-        float totalMovement = Math.abs(x + y + z - lastX - lastY - lastZ);
-
-        if (totalMovement > MIN_MOVEMENT) {
-
-            // get current milliseconds
-            long now = System.currentTimeMillis();
-
-            // store first movement
-            if (firstChangeTime == 0) {
-                firstChangeTime = now;
-            }
-
-            // store movement data
-            directionChangeCount++;
-
-            // store current axis sensor data
-            lastX = x;
-            lastY = y;
-            lastZ = z;
-
-            // check how many movements are so far
-            if (directionChangeCount >= MIN_DIRECTION_CHANGE) {
-
-                // check total duration
-                long totalDuration = now - firstChangeTime;
-                if (totalDuration < MAX_DURATION_OF_SHAKE) {
-
-                    // call the onShake method
-                    shakeListener.onShake();
-
-                    // reset the parameters
-                    reset();
-                }
-            }
-
-        } else {
-            reset();
-        }
-    }
-
-    /**
-     * Resets the shake parameters to their default values.
-     */
-    private void reset() {
-        firstChangeTime = 0;
-        directionChangeCount = 0;
-        lastX = 0;
-        lastY = 0;
-        lastZ = 0;
+    public int getSensorType() {
+        return Sensor.TYPE_ACCELEROMETER;
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // ignore
     }
 
     @Override
-    public int getSensorType() {
-        return Sensor.TYPE_ACCELEROMETER;
+    public void onSensorChanged(SensorEvent event) {
+        if (shakeListener != null) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            float gX = x / SensorManager.GRAVITY_EARTH;
+            float gY = y / SensorManager.GRAVITY_EARTH;
+            float gZ = z / SensorManager.GRAVITY_EARTH;
+
+            // gForce will be close to 1 when there is no movement.
+            double gForce = Math.sqrt(gX * gX + gY * gY + gZ * gZ);
+
+            if (gForce > SHAKE_THRESHOLD_GRAVITY) {
+                final long now = System.currentTimeMillis();
+                // ignore shake events too close to each other (500ms)
+                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                    return;
+                }
+
+                // reset the shake count after 3 seconds of no shakes
+                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                    mShakeCount = 0;
+                }
+
+                mShakeTimestamp = now;
+                mShakeCount++;
+
+                shakeListener.onShake();
+            }
+        }
     }
+
+
+
 }

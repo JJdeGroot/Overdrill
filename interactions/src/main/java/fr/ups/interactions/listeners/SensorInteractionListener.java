@@ -5,6 +5,6 @@ import android.hardware.SensorEventListener;
 /**
  * Interface for sensor actions
  */
-public interface SensorActionListener extends ActionListener, SensorEventListener {
+public interface SensorInteractionListener extends InteractionListener, SensorEventListener {
     int getSensorType();
 }

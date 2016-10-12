@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 /**
  * ButtonListener: listens to button actions.
  */
-public class ButtonListener extends BroadcastReceiver implements DeviceActionListener {
+public class ButtonListener extends BroadcastReceiver implements DeviceInteractionListener {
 
     // OnButtonListener that is called when shake is detected.
     private OnButtonListener buttonListener;

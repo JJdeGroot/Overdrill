@@ -62,8 +62,6 @@ public class TaskManager implements Runnable, TaskCallback {
         destroyAudioPlayer();
     }
 
-
-
     /**
      * Destroys the audio player
      */

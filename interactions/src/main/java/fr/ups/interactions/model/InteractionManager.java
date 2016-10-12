@@ -6,38 +6,38 @@ import android.hardware.SensorManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.ups.interactions.listeners.ActionListener;
-import fr.ups.interactions.listeners.SensorActionListener;
+import fr.ups.interactions.listeners.InteractionListener;
+import fr.ups.interactions.listeners.SensorInteractionListener;
 
 /**
  * The InteractionManager class manages all interactions.
  */
 public class InteractionManager {
 
-    private List<ActionListener> sensorActionList = new ArrayList<>();
+    private List<InteractionListener> listeners = new ArrayList<>();
 
     public InteractionManager() {
     }
 
     /**
-     * Adds an action listener to the sensorActionList.
+     * Adds an action listener to the listeners.
      *
-     * @param actionListener an ActionListener instance
+     * @param listener An ActionListener instance
      */
-    public void addSensorEventListener(ActionListener actionListener) {
-        if (actionListener != null) {
-            sensorActionList.add(actionListener);
+    public void addInteractionListener(InteractionListener listener) {
+        if (listener != null) {
+            listeners.add(listener);
         }
     }
 
     /**
-     * Removes an action listener to the sensorActionList.
+     * Removes an action listener to the listeners.
      *
-     * @param actionListener an ActionListener instance
+     * @param listener An ActionListener instance
      */
-    public void removeSensorEventListener(ActionListener actionListener) {
-        if (actionListener != null) {
-            sensorActionList.remove(actionListener);
+    public void removeInteractionListener(InteractionListener listener) {
+        if (listener != null) {
+            listeners.remove(listener);
         }
     }
 
@@ -47,10 +47,10 @@ public class InteractionManager {
      *
      * @param sensorManager SensorManager instance
      */
-    public void onResumeSensorActions(SensorManager sensorManager) {
-        for (ActionListener listener : sensorActionList) {
+    public void onResumeInteractions(SensorManager sensorManager) {
+        for (InteractionListener listener : listeners) {
             if (listener instanceof SensorEventListener) {
-                SensorActionListener sensorListener = (SensorActionListener) listener;
+                SensorInteractionListener sensorListener = (SensorInteractionListener) listener;
                 sensorManager.registerListener(sensorListener,
                         sensorManager.getDefaultSensor(sensorListener.getSensorType()),
                         SensorManager.SENSOR_DELAY_UI);
@@ -64,12 +64,14 @@ public class InteractionManager {
      *
      * @param sensorManager SensorManager instance
      */
-    public void onPauseSensorActions(SensorManager sensorManager) {
-        for (ActionListener listener : sensorActionList) {
+    public void onPauseInteractions(SensorManager sensorManager) {
+        for (InteractionListener listener : listeners) {
             if (listener instanceof SensorEventListener) {
                 SensorEventListener sensorListener = (SensorEventListener) listener;
                 sensorManager.unregisterListener(sensorListener);
             }
         }
     }
+
+
 }
