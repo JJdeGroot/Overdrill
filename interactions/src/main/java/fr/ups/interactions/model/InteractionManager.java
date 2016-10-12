@@ -1,4 +1,4 @@
-package fr.ups.interactions;
+package fr.ups.interactions.model;
 
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
@@ -10,8 +10,7 @@ import fr.ups.interactions.listeners.ActionListener;
 import fr.ups.interactions.listeners.SensorActionListener;
 
 /**
- * TODO
- * Base class for all the sensor actions
+ * The InteractionManager class manages all interactions.
  */
 public class InteractionManager {
 

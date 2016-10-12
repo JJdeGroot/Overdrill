@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import fr.ups.interactions.model.Interaction;
+
 /**
  * Manages the given tasks
  * Created by JJ on 11/10/2016.
@@ -146,11 +148,12 @@ public class TaskManager implements Runnable, TaskCallback {
     }
 
     @Override
-    public void onTaskEvent(Task task) {
-        if(task == this.task) {
+    public void onInteraction(Interaction interaction) {
+        // Check if interaction is correct for given task.
+        if(task.getInteraction() == interaction) {
             onTaskDone(task);
         }else{
-            onTaskWrong(this.task, task);
+            onTaskWrong(task.getInteraction(), interaction);
         }
     }
 
@@ -161,9 +164,9 @@ public class TaskManager implements Runnable, TaskCallback {
     }
 
     @Override
-    public void onTaskWrong(Task givenTask, Task executedTask) {
+    public void onTaskWrong(Interaction required, Interaction executed) {
         cancelCountdown();
-        callback.onTaskWrong(givenTask, executedTask);
+        callback.onTaskWrong(required, executed);
     }
 
     @Override

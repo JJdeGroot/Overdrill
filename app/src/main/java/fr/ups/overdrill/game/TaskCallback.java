@@ -1,5 +1,7 @@
 package fr.ups.overdrill.game;
 
+import fr.ups.interactions.model.Interaction;
+
 /**
  * Task callback
  * Created by JJ on 11/10/2016.
@@ -7,10 +9,12 @@ package fr.ups.overdrill.game;
 public interface TaskCallback {
 
     void onTaskStart(Task task);
-    void onTaskTimer(long timeLeft);
-    void onTaskEvent(Task task);
+
+    void onInteraction(Interaction interaction);
     void onTaskDone(Task task);
-    void onTaskWrong(Task givenTask, Task executedTask);
+    void onTaskWrong(Interaction required, Interaction executed);
+
+    void onTaskTimer(long timeLeft);
     void onTaskTimeout(Task task);
 
 }

@@ -10,6 +10,7 @@ import fr.ups.interactions.listeners.ButtonListener;
 import fr.ups.interactions.listeners.LuxListener;
 import fr.ups.interactions.listeners.ShakeListener;
 import fr.ups.interactions.model.Interaction;
+import fr.ups.interactions.model.InteractionManager;
 
 /**
  * Abstract activity which provides easy access to sensor actions
@@ -95,6 +96,12 @@ public abstract class InteractionActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     * Called on an interaction event
+     * @param interaction The interaction which occurred
+     */
+    protected abstract void handleInteraction(Interaction interaction);
+
 
     // SHAKE LISTENER ------------------------------------------------------------------------------
     private void registerShakeListener() {
@@ -102,16 +109,12 @@ public abstract class InteractionActivity extends AppCompatActivity {
         shakeListener.setOnSensorActionListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
-                handleShakeEvent();
+                handleInteraction(Interaction.SHAKE);
             }
         });
         sensorActionManager.addSensorEventListener(shakeListener);
     }
 
-    /**
-     * Called on shake events
-     */
-    protected abstract void handleShakeEvent();
 
     // BUTTON LISTENER -----------------------------------------------------------------------------
     private void registerButtonListener() {
@@ -119,12 +122,12 @@ public abstract class InteractionActivity extends AppCompatActivity {
         buttonListener.setOnSensorActionListener(new ButtonListener.OnButtonListener() {
             @Override
             public void onVolumeUp() {
-                handleVolumeUpEvent();
+                handleInteraction(Interaction.VOLUME_UP);
             }
 
             @Override
             public void onVolumeDown() {
-                handleVolumeDownEvent();
+                handleInteraction(Interaction.VOLUME_DOWN);
             }
         });
         sensorActionManager.addSensorEventListener(buttonListener);
@@ -133,26 +136,16 @@ public abstract class InteractionActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            handleVolumeUpEvent();
+            handleInteraction(Interaction.VOLUME_UP);
             return true;
         }
 
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            handleVolumeDownEvent();
+            handleInteraction(Interaction.VOLUME_DOWN);
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    /**
-     * Called on volume up
-     */
-    protected abstract void handleVolumeUpEvent();
-
-    /**
-     * Called on volume down
-     */
-    protected abstract void handleVolumeDownEvent();
 
     // LUX LISTENER --------------------------------------------------------------------------------
     private void registerLuxListener() {
@@ -161,16 +154,10 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
             @Override
             public void onLightDark() {
-                handleLightDark();
+                handleInteraction(Interaction.LUX);
             }
         });
         sensorActionManager.addSensorEventListener(luxListener);
     }
-
-    /**
-     * Called on dark environmental lightning
-     */
-    protected abstract void handleLightDark();
-
 
 }

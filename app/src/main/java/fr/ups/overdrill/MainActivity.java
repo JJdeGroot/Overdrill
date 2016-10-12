@@ -105,33 +105,14 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         toast.show();
     }
 
-    // Shake callback
+
+
+    /***** INTERACTION CALLBACK ******/
 
     @Override
-    public void handleShakeEvent() {
-        onTaskEvent(Task.SHAKE);
+    protected void handleInteraction(Interaction interaction) {
+        onInteraction(interaction);
     }
-
-    // Button callback
-
-    @Override
-    public void handleVolumeUpEvent() {
-        onTaskEvent(Task.VOLUME_UP);
-    }
-
-    @Override
-    public void handleVolumeDownEvent() {
-        onTaskEvent(Task.VOLUME_DOWN);
-    }
-
-    // Lux callback
-
-    @Override
-    public void handleLightDark() {
-        onTaskEvent(Task.COVER_LIGHT_SENSOR);
-    }
-
-
 
     /***** TASK CALLBACK *****/
 
@@ -147,9 +128,9 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     @Override
-    public void onTaskEvent(Task task) {
-        //logToast("Event: " + task);
-        taskManager.onTaskEvent(task);
+    public void onInteraction(Interaction interaction) {
+        //logToast("Interaction: " + interaction);
+        taskManager.onInteraction(interaction);
     }
 
     @Override
@@ -160,8 +141,8 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     @Override
-    public void onTaskWrong(Task givenTask, Task executedTask) {
-        logToast("Wrong task executed ("+executedTask+") should have been: " + givenTask);
+    public void onTaskWrong(Interaction required, Interaction executed) {
+        logToast("Wrong interaction ("+executed+") should have been: " + required);
         onGameOver();
     }
 
