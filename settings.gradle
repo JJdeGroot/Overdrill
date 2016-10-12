@@ -1,1 +1,1 @@
-include ':app', ':sensoractions'
+include ':app', ':interactions'

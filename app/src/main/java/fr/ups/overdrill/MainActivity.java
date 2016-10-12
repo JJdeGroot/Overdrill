@@ -4,25 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.game.Task;
 import fr.ups.overdrill.game.TaskCallback;
 import fr.ups.overdrill.game.TaskManager;
 import fr.ups.overdrill.hiscore.HiscoreActivity;
 import fr.ups.overdrill.info.InfoActivity;
-import fr.ups.sensoractions.SensorActivity;
-import fr.ups.sensoractions.listeners.ActionListener;
+import fr.ups.interactions.InteractionActivity;
 
 /**
  * Main activity
  */
-public class MainActivity extends SensorActivity implements TaskCallback {
+public class MainActivity extends InteractionActivity implements TaskCallback {
 
     private static final String TAG = "MainActivity";
     private static final int REQUEST_CODE_INFO = 1,
@@ -34,10 +33,6 @@ public class MainActivity extends SensorActivity implements TaskCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // set configuration for registering listener over extra intent
-        String listenerList = "1,3";
-        getIntent().putExtra(SensorActivity.EXTRA_SENSOR_CONFIG, listenerList);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -54,6 +49,11 @@ public class MainActivity extends SensorActivity implements TaskCallback {
 
         // Start the game!
         onNewGame();
+    }
+
+    @Override
+    protected Interaction[] getInteractions() {
+        return Interaction.values();
     }
 
     @Override
@@ -148,7 +148,7 @@ public class MainActivity extends SensorActivity implements TaskCallback {
 
     @Override
     public void onTaskEvent(Task task) {
-        logToast("Event: " + task);
+        //logToast("Event: " + task);
         taskManager.onTaskEvent(task);
     }
 
@@ -156,7 +156,7 @@ public class MainActivity extends SensorActivity implements TaskCallback {
     public void onTaskDone(Task task) {
         logToast("Task " + task + " successfully completed!");
         // TODO: Extract points based on time or something
-        onNewGame();
+        onNewTask();
     }
 
     @Override

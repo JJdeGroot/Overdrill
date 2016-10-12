@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Overdrill.iml" filepath="$PROJECT_DIR$/Overdrill.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sensoractions/sensoractions.iml" filepath="$PROJECT_DIR$/sensoractions/sensoractions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/interactions/interactions.iml" filepath="$PROJECT_DIR$/interactions/interactions.iml" />
     </modules>
   </component>
 </project>
