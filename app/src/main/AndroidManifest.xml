@@ -18,13 +18,20 @@
         </activity>
 
         <!-- Info -->
-        <activity android:name=".info.InfoActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".info.InfoActivity"
+            android:label="@string/activity_info"
+            android:screenOrientation="portrait" />
 
         <!-- Hiscore -->
-        <activity android:name=".hiscore.HiscoreActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".info.HiscoreActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Info: sensor -->
-        <activity android:name=".info.SensorInfoActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".info.InteractionInfoActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

@@ -16,7 +16,7 @@ import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.game.Task;
 import fr.ups.overdrill.game.TaskCallback;
 import fr.ups.overdrill.game.TaskManager;
-import fr.ups.overdrill.hiscore.HiscoreActivity;
+import fr.ups.overdrill.info.HiscoreActivity;
 import fr.ups.overdrill.info.InfoActivity;
 import fr.ups.interactions.InteractionActivity;
 

@@ -1,9 +1,9 @@
 <resources>
+    <!-- Activities -->
     <string name="app_name">Overdrill</string>
+    <string name="activity_info">Information</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
+    <!-- Game -->
     <string name="game_over">GAME OVER.\nCLICK TO RE-TRY.</string>
     <string name="new_game">NEW GAME IS STARTING.</string>
 
