@@ -36,6 +36,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     public TaskManager(Context context) {
         this.context = context;
         this.tasks = Task.values();
+        this.playSound = true;
     }
 
     /**
@@ -85,22 +86,20 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     /***** SOUND HANDLING *****/
 
     private void playSound(Task task) {
-        if(playSound) {
-            try {
-                this.audioPlayer = new MediaPlayer();
-                audioPlayer.setOnPreparedListener(new PrepareListener());
+        try {
+            this.audioPlayer = new MediaPlayer();
+            audioPlayer.setOnPreparedListener(new PrepareListener());
 
-                AssetFileDescriptor descriptor = context.getResources().openRawResourceFd(task.getAudioID());
-                audioPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+            AssetFileDescriptor descriptor = context.getResources().openRawResourceFd(task.getAudioID());
+            audioPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
 
-                audioPlayer.prepareAsync();
-            } catch (IOException e) {
-                Log.d(TAG, "[ERROR] I/O exception: " + e.getMessage());
-                e.printStackTrace();
-            } catch (IllegalStateException e) {
-                Log.d(TAG, "[ERROR] Illegal state: " + e.getMessage());
-                e.printStackTrace();
-            }
+            audioPlayer.prepareAsync();
+        } catch (IOException e) {
+            Log.d(TAG, "[ERROR] I/O exception: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "[ERROR] Illegal state: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -141,7 +140,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     @Override
     public void onTaskStart(Task task) {
         // Play music
-        if(audioPlayer != null) {
+        if(audioPlayer != null && playSound) {
             audioPlayer.start();
         }
 
