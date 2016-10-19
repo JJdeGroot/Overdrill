@@ -30,6 +30,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     private static final int REQUEST_CODE_INFO = 1,
                              REQUEST_CODE_HISCORE = 2;
 
+    // User interface
     private TextView timerView, scoreView, commandView;
 
     // Tasks
@@ -40,10 +41,16 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     private DbHandler handler;
     private int score;
 
+    // Settings
+    boolean playingSound;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Settings
+        this.playingSound = true;
 
         // Database
         this.handler = new DbHandler(this);
@@ -101,9 +108,11 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
             // Info
             Intent intent = new Intent(this, InfoActivity.class);
             startActivityForResult(intent, REQUEST_CODE_INFO);
+
         } else if (id == R.id.action_sound) {
             // Sound
-            // TODO: Toggle sound
+            toggleSound(item);
+
         } else if (id == R.id.action_hiscore) {
             // Hisores
             Intent intent = new Intent(this, HiscoreActivity.class);
@@ -111,6 +120,23 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Toggles the sound icon
+     * @param item Reference to the sound icon
+     */
+    private void toggleSound(MenuItem item) {
+        if(playingSound) {
+            item.setIcon(R.drawable.icon_music_disabled);
+            playingSound = false;
+        }else{
+            item.setIcon(R.drawable.icon_music);
+            playingSound = true;
+        }
+
+        // Notify task manager
+        taskManager.onSoundChange(playingSound);
     }
 
     /**
@@ -187,11 +213,20 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         // Store in hiscores
         handler.insertScore("Development", score);
 
-        // Reset variables
+        // Reset game
         this.isGameOver = true;
-        this.score = 0;
-
         timerView.setText(R.string.game_over);
+
+        // Reset score
+        this.score = 0;
+        onScoreUpdate();
+    }
+
+    /**
+     * Called when the score should be updated
+     */
+    private void onScoreUpdate() {
+        scoreView.setText("Score: " + score);
     }
 
     /**

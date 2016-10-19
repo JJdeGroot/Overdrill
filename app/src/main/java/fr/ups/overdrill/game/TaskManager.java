@@ -16,7 +16,7 @@ import fr.ups.interactions.model.Interaction;
  * Manages the given tasks
  * Created by JJ on 11/10/2016.
  */
-public class TaskManager implements Runnable, TaskCallback {
+public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     private static final String TAG = "TaskManager";
 
@@ -74,25 +74,37 @@ public class TaskManager implements Runnable, TaskCallback {
     }
 
 
+    /***** SETTINGS CALLBACK *****/
+    private boolean playSound;
+
+    @Override
+    public void onSoundChange(boolean playSound) {
+        this.playSound = playSound;
+    }
+
     /***** SOUND HANDLING *****/
 
     private void playSound(Task task) {
-        try {
-            this.audioPlayer = new MediaPlayer();
-            audioPlayer.setOnPreparedListener(new PrepareListener());
+        if(playSound) {
+            try {
+                this.audioPlayer = new MediaPlayer();
+                audioPlayer.setOnPreparedListener(new PrepareListener());
 
-            AssetFileDescriptor descriptor = context.getResources().openRawResourceFd(task.getAudioID());
-            audioPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
+                AssetFileDescriptor descriptor = context.getResources().openRawResourceFd(task.getAudioID());
+                audioPlayer.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
 
-            audioPlayer.prepareAsync();
-        }catch(IOException e) {
-            Log.d(TAG, "[ERROR] I/O exception: " + e.getMessage());
-            e.printStackTrace();
-        }catch(IllegalStateException e) {
-            Log.d(TAG, "[ERROR] Illegal state: " + e.getMessage());
-            e.printStackTrace();
+                audioPlayer.prepareAsync();
+            } catch (IOException e) {
+                Log.d(TAG, "[ERROR] I/O exception: " + e.getMessage());
+                e.printStackTrace();
+            } catch (IllegalStateException e) {
+                Log.d(TAG, "[ERROR] Illegal state: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
+
+
 
     /**
      * Waits for the audio player to complete
