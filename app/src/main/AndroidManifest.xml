@@ -26,6 +26,7 @@
         <!-- Hiscore -->
         <activity
             android:name=".info.HiscoreActivity"
+            android:label="@string/activity_hiscore"
             android:screenOrientation="portrait" />
 
         <!-- Info: sensor -->

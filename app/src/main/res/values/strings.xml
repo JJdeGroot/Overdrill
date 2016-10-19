@@ -2,6 +2,7 @@
     <!-- Activities -->
     <string name="app_name">Overdrill</string>
     <string name="activity_info">Information</string>
+    <string name="activity_hiscore">Hiscore</string>
 
     <!-- Game -->
     <string name="game_over">GAME OVER.\nCLICK TO RE-TRY.</string>

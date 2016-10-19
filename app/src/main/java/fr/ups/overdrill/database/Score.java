@@ -6,17 +6,20 @@ package fr.ups.overdrill.database;
 public class Score {
 
     private long id;
+    private long timestamp;
     private String player;
     private int score;
 
     /**
      * Constructor for a Score object
      * @param id Internal database ID
+     * @param timestamp Timestamp when the score was achieved.
      * @param player The name of the player
      * @param score The score thas has been achieved
      */
-    public Score(long id, String player, int score) {
+    public Score(long id, long timestamp, String player, int score) {
         this.id = id;
+        this.timestamp = timestamp;
         this.player = player;
         this.score = score;
     }
@@ -27,6 +30,14 @@ public class Score {
      */
     public long getID() {
         return id;
+    }
+
+    /**
+     * Returns the timestamp the score was achieved.
+     * @return Timestamp of achievement.
+     */
+    public long getTimestamp() {
+        return timestamp;
     }
 
     /**

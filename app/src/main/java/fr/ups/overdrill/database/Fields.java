@@ -15,6 +15,7 @@ public interface Fields {
 	// Score table
 	String TABLE_SCORES = "scores",
            SCORE_ID = "id",
+           SCORE_TIMESTAMP = "timestamp",
            SCORE_PLAYER = "player",
            SCORE_SCORE = "score";
 

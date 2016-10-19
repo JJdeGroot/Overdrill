@@ -35,6 +35,7 @@ public class DbHelper extends SQLiteOpenHelper implements Fields {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_SCORES +
 												   " (" +
 												   		SCORE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                                                        SCORE_TIMESTAMP + " INTEGER,"+
 												   		SCORE_PLAYER + " TEXT," +
 												   		SCORE_SCORE + " INTEGER"+
 												   ");");

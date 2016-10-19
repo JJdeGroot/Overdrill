@@ -62,6 +62,7 @@ public class DbHandler implements Fields {
 		
 		// Insert app info
 		ContentValues values = new ContentValues();
+        values.put(SCORE_TIMESTAMP, System.currentTimeMillis());
 		values.put(SCORE_PLAYER, name);
 		values.put(SCORE_SCORE, score);
 		long id = db.insert(TABLE_SCORES, null, values);
@@ -77,10 +78,11 @@ public class DbHandler implements Fields {
 	 */
 	private Score getScore(Cursor cursor) {
 		long id = cursor.getLong(cursor.getColumnIndex(SCORE_ID));
+        long timestamp = cursor.getLong(cursor.getColumnIndex(SCORE_TIMESTAMP));
 		String name = cursor.getString(cursor.getColumnIndex(SCORE_PLAYER));
 		int score = cursor.getInt(cursor.getColumnIndex(SCORE_SCORE));
 
-		return new Score(id, name, score);
+		return new Score(id, timestamp, name, score);
 	}
 	
 	/**
@@ -154,6 +156,14 @@ public class DbHandler implements Fields {
 		return getScores(query, null);
 	}
 
+    /**
+     * Returns a list of all Scores objects starting with the higheest score
+     * @return List of Score objects from high to low.
+     */
+    public ArrayList<Score> getScoresHighToLow() {
+        String query = "SELECT * FROM " + TABLE_SCORES + " ORDER BY " + SCORE_SCORE + " DESC";
+        return getScores(query, null);
+    }
 
 
 
