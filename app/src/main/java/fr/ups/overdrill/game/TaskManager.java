@@ -27,6 +27,7 @@ public class TaskManager implements Runnable, TaskCallback {
     private Task[] tasks;
 
     private Task task;
+
     private TaskCountDown countdown;
     private TaskCallback callback;
 

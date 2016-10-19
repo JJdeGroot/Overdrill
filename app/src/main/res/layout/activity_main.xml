@@ -19,6 +19,17 @@
         android:textStyle="bold"
         android:textColor="@color/white"/>
 
+    <!-- Score -->
+    <TextView
+        android:id="@+id/main_ScoreView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
     <!-- Text balloon layout -->
     <LinearLayout
         android:id="@+id/main_TopLayout"

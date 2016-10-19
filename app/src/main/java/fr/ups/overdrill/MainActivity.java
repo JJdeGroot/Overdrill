@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import fr.ups.interactions.model.Interaction;
+import fr.ups.overdrill.database.DbHandler;
 import fr.ups.overdrill.game.Task;
 import fr.ups.overdrill.game.TaskCallback;
 import fr.ups.overdrill.game.TaskManager;
@@ -29,18 +30,30 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     private static final int REQUEST_CODE_INFO = 1,
                              REQUEST_CODE_HISCORE = 2;
 
-    private TextView timerView, commandView;
+    private TextView timerView, scoreView, commandView;
+
+    // Tasks
     private TaskManager taskManager;
     private boolean isGameOver = false;
+
+    // Hiscore
+    private DbHandler handler;
+    private int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Database
+        this.handler = new DbHandler(this);
+
         // Timer
         this.timerView = (TextView) findViewById(R.id.main_TimerView);
         timerView.setOnClickListener(new RetryListener());
+
+        // Score
+        this.scoreView = (TextView) findViewById(R.id.main_ScoreView);
 
         // Command
         this.commandView = (TextView) findViewById(R.id.main_CommandText);
@@ -109,7 +122,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         Log.d(TAG, message);
 
         // Toast
-        Toast toast = Toast.makeText(this, message, 500);
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
@@ -145,7 +158,11 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     @Override
     public void onTaskDone(Task task) {
         logToast("Task " + task + " successfully completed!");
-        // TODO: Extract points based on time or something
+
+        // Show score
+        score++; // TODO: More points based on time left.
+        scoreView.setText("Score: " + score);
+
         onNewTask();
     }
 
@@ -167,7 +184,13 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
      * Called when it's game over
      */
     private void onGameOver() {
-        isGameOver = true;
+        // Store in hiscores
+        handler.insertScore("Development", score);
+
+        // Reset variables
+        this.isGameOver = true;
+        this.score = 0;
+
         timerView.setText(R.string.game_over);
     }
 
@@ -175,7 +198,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
      * Called to start a new game
      */
     private void onNewGame() {
-        isGameOver = false;
+        this.isGameOver = false;
         timerView.setText(R.string.new_game);
         onNewTask();
     }
