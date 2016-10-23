@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import fr.ups.interactions.listeners.ButtonListener;
 import fr.ups.interactions.listeners.LuxListener;
 import fr.ups.interactions.listeners.ShakeListener;
+import fr.ups.interactions.listeners.SoundListener;
 import fr.ups.interactions.listeners.TiltListener;
 import fr.ups.interactions.model.Interaction;
 import fr.ups.interactions.model.InteractionManager;
@@ -27,6 +28,8 @@ public abstract class InteractionActivity extends AppCompatActivity {
     private SensorManager sensorManager;
     private InteractionManager interactionManager;
 
+    private SoundListener soundListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +43,9 @@ public abstract class InteractionActivity extends AppCompatActivity {
         registerActionListener(Interaction.COVER_LIGHT_SENSOR);
     }
 
-    /***** STATES *****/
+    /*****
+     * STATES
+     *****/
 
     @Override
     protected void onStart() {
@@ -76,6 +81,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
     /**
      * Returns a list of all enabled interactions
+     *
      * @return List of Interaction objects.
      */
     protected abstract ArrayList<Interaction> getInteractions();
@@ -128,6 +134,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
                 break;
 
             case BLOW_INTO_MICROPHONE:
+                registerSoundListener();
                 break;
         }
 
@@ -260,6 +267,25 @@ public abstract class InteractionActivity extends AppCompatActivity {
             }
         });
         interactionManager.addInteractionListener(luxListener);
+    }
+
+    // SOUND LISTENER
+    private void registerSoundListener() {
+        soundListener = new SoundListener();
+        soundListener.setOnSensorActionListener(new SoundListener.OnSoundListener() {
+            @Override
+            public void onMicrophoneBlow() {
+                handleInteraction(Interaction.BLOW_INTO_MICROPHONE);
+            }
+        });
+
+        soundListener.registerSoundListener();
+    }
+
+    private void deregisterSoundListener() {
+        if (soundListener != null) {
+            soundListener.stop();
+        }
     }
 
 }

@@ -57,7 +57,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     public void run() {
         Log.d(TAG, "Generating and starting task!");
 
-        // Generate new task and start it
+        // Generate new task and registerSoundListener it
         this.task = newTask();
         playAudio(task);
     }

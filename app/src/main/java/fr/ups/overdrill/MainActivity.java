@@ -270,7 +270,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     /**
-     * Called to start a new game
+     * Called to registerSoundListener a new game
      */
     private void onNewGame() {
         this.isGameOver = false;
@@ -278,7 +278,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     /**
-     * Called to start a new task
+     * Called to registerSoundListener a new task
      */
     private void onNewTask() {
         taskManager.run();

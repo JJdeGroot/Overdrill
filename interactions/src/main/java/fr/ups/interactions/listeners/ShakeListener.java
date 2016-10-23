@@ -3,7 +3,6 @@ package fr.ups.interactions.listeners;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-import android.util.FloatMath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,8 @@ public class ShakeListener implements SensorInteractionListener {
     private static final int SHAKE_SLOP_TIME_MS = 500;
     private static final int SHAKE_COUNT_RESET_TIME_MS = 3000;
 
-    private long mShakeTimestamp;
-    private int mShakeCount;
+    private long shakeTimestamp;
+    private int shakeCount;
 
     // OnShakeListener that is called when shake is detected.
     private OnShakeListener shakeListener;
@@ -75,19 +74,19 @@ public class ShakeListener implements SensorInteractionListener {
                 final long now = System.currentTimeMillis();
 
                 // ignore shake events too close to each other (500ms)
-                if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
+                if (shakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
                     return;
                 }
 
                 // reset the shake count after 3 seconds of no shakes
-                if (mShakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
-                    mShakeCount = 0;
+                if (shakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
+                    shakeCount = 0;
                 }
 
-                mShakeTimestamp = now;
-                mShakeCount++;
+                shakeTimestamp = now;
+                shakeCount++;
 
-                if (mShakeCount > 3) {
+                if (shakeCount > 3) {
                     shakeListener.onShake();
                 }
             }
