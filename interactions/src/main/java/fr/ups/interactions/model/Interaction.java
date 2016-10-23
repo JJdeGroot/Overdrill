@@ -5,11 +5,17 @@ package fr.ups.interactions.model;
  */
 public enum Interaction {
 
-    LUX(1),
-    CAMERA(2),
-    SHAKE(3),
-    VOLUME_UP(4),
-    VOLUME_DOWN(5);
+    SHAKE_DEVICE(1),
+    TILT_DEVICE_UP(2),
+    TILT_DEVICE_RIGHT(3),
+    TILT_DEVICE_DOWN(4),
+    TILT_DEVICE_LEFT(5),
+    COVER_FRONT_CAMERA(6),
+    COVER_REAR_CAMERA(7),
+    COVER_LIGHT_SENSOR(8),
+    PRESS_VOLUME_UP(9),
+    PRESS_VOLUME_DOWN(10),
+    BLOW_INTO_MICROPHONE(11);
 
     private int id;
 

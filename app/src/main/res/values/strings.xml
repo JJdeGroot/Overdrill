@@ -14,9 +14,16 @@
     <string name="action_hiscore">Hiscores</string>
 
     <!-- Tasks -->
-    <string name="task_shake">SHAKE YOUR DEVICE</string>
-    <string name="task_volume_up">PRESS VOLUME UP</string>
-    <string name="task_volume_down">PRESS VOLUME DOWN</string>
-    <string name="task_cover_light_sensor">COVER THE LIGHT SENSOR</string>
+    <string name="shake_your_device">SHAKE YOUR DEVICE</string>
+    <string name="tilt_your_device_up">TILT YOUR DEVICE UP</string>
+    <string name="tilt_your_device_right">TILT YOUR DEVICE RIGHT</string>
+    <string name="tilt_your_device_down">TILT YOUR DEVICE DOWN</string>
+    <string name="tilt_your_device_left">TILT YOUR DEVICE LEFT</string>
+    <string name="cover_the_front_camera">COVER THE FRONT CAMERA</string>
+    <string name="cover_the_rear_camera">COVER THE REAR CAMERA</string>
+    <string name="cover_the_light_sensor">COVER THE LIGHT SENSOR</string>
+    <string name="press_volume_up">PRESS VOLUME UP</string>
+    <string name="press_volume_down">PRESS VOLUME DOWN</string>
+    <string name="blow_into_the_microphone">BLOW INTO THE MICROPHONE</string>
 
 </resources>

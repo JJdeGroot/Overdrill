@@ -37,44 +37,8 @@ public abstract class InteractionActivity extends AppCompatActivity {
         registerActionListeners();
     }
 
-    /**
-     * Returns a list of all enabled interactions
-     * @return List of Interaction objects.
-     */
-    protected abstract ArrayList<Interaction> getInteractions();
+    /***** STATES *****/
 
-    /**
-     * Registers the action listener based on the integer array passed.
-     * The integer array reflects values from SensorListenerType.class.
-     */
-    private void registerActionListeners() {
-        for(Interaction interaction : interactions) {
-            switch(interaction) {
-
-                case LUX:
-                    registerLuxListener();
-                    break;
-
-                case CAMERA:
-                    // TODO: Register camera listener
-                    break;
-
-                case SHAKE:
-                    registerShakeListener();
-                    break;
-
-                case VOLUME_UP:
-                    registerVolumeUpListener();
-                    break;
-
-                case VOLUME_DOWN:
-                    registerVolumeDownListener();
-                    break;
-            }
-        }
-    }
-
-    // STATES --------------------------------------------------------------------------------------
     @Override
     protected void onStart() {
         super.onStart();
@@ -103,10 +67,62 @@ public abstract class InteractionActivity extends AppCompatActivity {
     }
 
 
-
-
-
     /***** INTERACTIONS *****/
+
+    /**
+     * Returns a list of all enabled interactions
+     * @return List of Interaction objects.
+     */
+    protected abstract ArrayList<Interaction> getInteractions();
+
+    /**
+     * Registers the action listener based on the integer array passed.
+     * The integer array reflects values from SensorListenerType.class.
+     */
+    private void registerActionListeners() {
+        for(Interaction interaction : interactions) {
+            switch(interaction) {
+
+                case SHAKE_DEVICE:
+                    registerShakeListener();
+                    break;
+
+                case TILT_DEVICE_UP:
+
+                    break;
+
+                case TILT_DEVICE_RIGHT:
+                    break;
+
+                case TILT_DEVICE_DOWN:
+                    break;
+
+                case TILT_DEVICE_LEFT:
+                    break;
+
+                case COVER_FRONT_CAMERA:
+                    break;
+
+                case COVER_REAR_CAMERA:
+                    break;
+
+                case COVER_LIGHT_SENSOR:
+                    registerLuxListener();
+                    break;
+
+                case PRESS_VOLUME_UP:
+                    registerVolumeUpListener();
+                    break;
+
+                case PRESS_VOLUME_DOWN:
+                    registerVolumeDownListener();
+                    break;
+
+                case BLOW_INTO_MICROPHONE:
+                    break;
+            }
+        }
+    }
 
     /**
      * Called on an interaction event
@@ -115,20 +131,19 @@ public abstract class InteractionActivity extends AppCompatActivity {
     protected abstract void handleInteraction(Interaction interaction);
 
 
-    // SHAKE LISTENER ------------------------------------------------------------------------------
+    // SHAKE LISTENER
     private void registerShakeListener() {
         ShakeListener shakeListener = new ShakeListener();
         shakeListener.setOnSensorActionListener(new ShakeListener.OnShakeListener() {
             @Override
             public void onShake() {
-                handleInteraction(Interaction.SHAKE);
+                handleInteraction(Interaction.SHAKE_DEVICE);
             }
         });
         interactionManager.addInteractionListener(shakeListener);
     }
 
-    // BUTTON LISTENERS ----------------------------------------------------------------------------
-
+    // BUTTON LISTENERS
     private boolean volumeUp, volumeDown;
 
     @Override
@@ -152,52 +167,49 @@ public abstract class InteractionActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    /***** VOLUME UP *****/
-
+    // VOLUME UP
     private void registerVolumeUpListener() {
         volumeUp = true;
     }
 
     private void onVolumeUp() {
-        handleInteraction(Interaction.VOLUME_UP);
+        handleInteraction(Interaction.PRESS_VOLUME_UP);
     }
 
-    /***** VOLUME DOWN *****/
+    // VOLUME DOWN
     private void registerVolumeDownListener() {
         volumeDown = true;
     }
 
     private void onVolumeDown() {
-        handleInteraction(Interaction.VOLUME_DOWN);
+        handleInteraction(Interaction.PRESS_VOLUME_DOWN);
     }
 
-    //
+    // BUTTON LISTENER -- TODO: Is not used because onKeyDown event is fired and overridden.
     private void registerButtonListener() {
         ButtonListener buttonListener = new ButtonListener();
         buttonListener.setOnSensorActionListener(new ButtonListener.OnButtonListener() {
             @Override
             public void onVolumeUp() {
-                handleInteraction(Interaction.VOLUME_UP);
+                handleInteraction(Interaction.PRESS_VOLUME_UP);
             }
 
             @Override
             public void onVolumeDown() {
-                handleInteraction(Interaction.VOLUME_DOWN);
+                handleInteraction(Interaction.PRESS_VOLUME_DOWN);
             }
         });
         interactionManager.addInteractionListener(buttonListener);
     }
 
-
-
-    // LUX LISTENER --------------------------------------------------------------------------------
+    // LUX LISTENER
     private void registerLuxListener() {
         LuxListener luxListener = new LuxListener();
         luxListener.setOnSensorActionListener(new LuxListener.OnLuxListener() {
 
             @Override
             public void onLightDark() {
-                handleInteraction(Interaction.LUX);
+                handleInteraction(Interaction.COVER_LIGHT_SENSOR);
             }
         });
         interactionManager.addInteractionListener(luxListener);
