@@ -5,8 +5,7 @@
     <string name="activity_hiscore">Hiscore</string>
 
     <!-- Game -->
-    <string name="game_over">GAME OVER.\nCLICK TO RE-TRY.</string>
-    <string name="new_game">NEW GAME IS STARTING.</string>
+    <string name="game_over">GAME OVER</string>
 
     <!-- Menu -->
     <string name="action_info">Information</string>

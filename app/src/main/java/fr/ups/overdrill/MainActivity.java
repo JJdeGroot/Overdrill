@@ -1,7 +1,9 @@
 package fr.ups.overdrill;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -57,7 +59,6 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
         // Timer
         this.timerView = (TextView) findViewById(R.id.main_TimerView);
-        timerView.setOnClickListener(new RetryListener());
 
         // Score
         this.scoreView = (TextView) findViewById(R.id.main_ScoreView);
@@ -159,7 +160,9 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
     @Override
     protected void handleInteraction(Interaction interaction) {
-        onInteraction(interaction);
+        if(!isGameOver) {
+            onInteraction(interaction);
+        }
     }
 
     /***** TASK CALLBACK *****/
@@ -215,11 +218,42 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
         // Reset game
         this.isGameOver = true;
-        timerView.setText(R.string.game_over);
+        showGameOverDialog();
 
         // Reset score
         this.score = 0;
         onScoreUpdate();
+    }
+
+    /**
+     * Displays a game over dialog
+     */
+    private void showGameOverDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.game_over);
+        builder.setCancelable(true);
+
+        // Start a new game
+        builder.setPositiveButton(
+                "New game",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        onNewGame();
+                    }
+                });
+
+        // Quit app
+        builder.setNegativeButton(
+                "Quit",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        builder.show();
     }
 
     /**
@@ -234,7 +268,6 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
      */
     private void onNewGame() {
         this.isGameOver = false;
-        timerView.setText(R.string.new_game);
         onNewTask();
     }
 
@@ -243,20 +276,6 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
      */
     private void onNewTask() {
         taskManager.run();
-    }
-
-    /**
-     * Listens to clicks on the retry button
-     */
-    private class RetryListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            // Check if pressed on purpose
-            if(isGameOver) {
-                onNewGame();
-            }
-        }
     }
 
 }

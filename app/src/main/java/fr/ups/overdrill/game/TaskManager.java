@@ -51,15 +51,19 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     public void run() {
         Log.d(TAG, "Generating and starting task!");
 
-        // Stop previous audio if it is still playing
+        // Generate new task and start it
+        this.task = newTask();
+        playAudio(task);
+    }
+
+    /**
+     * Stops all sound.
+     */
+    private void stopAudio() {
         if(audioPlayer != null && audioPlayer.isPlaying()) {
             audioPlayer.stop();
             audioPlayer.reset();
         }
-
-        // Generate new task and start it
-        this.task = newTask();
-        playSound(task);
     }
 
     /**
@@ -90,9 +94,13 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
         this.playSound = playSound;
     }
 
-    /***** SOUND HANDLING *****/
+    /***** AUDIO HANDLING *****/
 
-    private void playSound(Task task) {
+    private void playAudio(Task task) {
+        // Stop previous audio
+        stopAudio();
+
+        // Prepare for new audio
         try {
             this.audioPlayer = new MediaPlayer();
             audioPlayer.setOnPreparedListener(new PrepareListener());
@@ -184,6 +192,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     @Override
     public void onTaskWrong(Interaction required, Interaction executed) {
         cancelCountdown();
+        stopAudio();
         callback.onTaskWrong(required, executed);
     }
 

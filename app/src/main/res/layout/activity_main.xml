@@ -8,29 +8,51 @@
     android:orientation="vertical"
     tools:context="fr.ups.overdrill.MainActivity">
 
-    <!-- Timer -->
-    <TextView
-        android:id="@+id/main_TimerView"
-        android:layout_width="wrap_content"
+    <!-- Game toolbar -->
+    <LinearLayout
+        android:id="@+id/main_ToolBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:padding="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
 
-    <!-- Score -->
-    <TextView
-        android:id="@+id/main_ScoreView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        <!-- Timer -->
+        <TextView
+            android:id="@+id/main_TimerView"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
-    <!-- Text balloon layout -->
+        <!-- Vertical Divider -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/white"/>
+
+        <!-- Score -->
+        <TextView
+            android:id="@+id/main_ScoreView"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+    <!-- Command layout -->
     <LinearLayout
         android:id="@+id/main_TopLayout"
         android:layout_width="match_parent"
@@ -41,7 +63,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!-- Command -->
+        <!-- Command balloon -->
         <TextView
             android:id="@+id/main_CommandText"
             android:layout_width="match_parent"
@@ -53,6 +75,7 @@
             android:padding="20dp"
             android:textColor="@color/black" />
 
+        <!-- Inverse rectangle -->
         <View
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -60,6 +83,7 @@
             android:background="@drawable/inverse_rectangle"/>
 
     </LinearLayout>
+
 
     <!-- Drill Sergeant Layout -->
     <LinearLayout
@@ -80,6 +104,5 @@
             android:cropToPadding="true" />
 
     </LinearLayout>
-
 
 </LinearLayout>
