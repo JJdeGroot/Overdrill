@@ -1,8 +1,11 @@
 package fr.ups.interactions;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -10,6 +13,7 @@ import android.view.KeyEvent;
 import java.util.ArrayList;
 
 import fr.ups.interactions.listeners.ButtonListener;
+import fr.ups.interactions.listeners.CameraListener;
 import fr.ups.interactions.listeners.LuxListener;
 import fr.ups.interactions.listeners.ShakeListener;
 import fr.ups.interactions.listeners.SoundListener;
@@ -23,12 +27,14 @@ import fr.ups.interactions.model.InteractionManager;
 public abstract class InteractionActivity extends AppCompatActivity {
 
     private static final String TAG = "InteractionActivity";
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Bitmap cameraBitmapImage;
+
     private ArrayList<Interaction> interactions;
 
     private SensorManager sensorManager;
     private InteractionManager interactionManager;
-
-    private SoundListener soundListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +122,11 @@ public abstract class InteractionActivity extends AppCompatActivity {
                 break;
 
             case COVER_FRONT_CAMERA:
+                registerCameraListener();
                 break;
 
             case COVER_REAR_CAMERA:
+                registerCameraListener();
                 break;
 
             case COVER_LIGHT_SENSOR:
@@ -147,6 +155,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
      */
     public void removeActionListeners() {
         Log.d(TAG, "REMOVING ALL ACTION LISTENERS");
+        interactionManager.onPauseInteractions(sensorManager);
         interactionManager.removeAllInteractionListeners();
     }
 
@@ -253,7 +262,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
                 handleInteraction(Interaction.PRESS_VOLUME_DOWN);
             }
         });
-        interactionManager.addInteractionListener(buttonListener);
+        //interactionManager.addInteractionListener(buttonListener);
     }
 
     // LUX LISTENER
@@ -271,7 +280,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
     // SOUND LISTENER
     private void registerSoundListener() {
-        soundListener = new SoundListener();
+        SoundListener soundListener = new SoundListener();
         soundListener.setOnSensorActionListener(new SoundListener.OnSoundListener() {
             @Override
             public void onMicrophoneBlow() {
@@ -279,13 +288,40 @@ public abstract class InteractionActivity extends AppCompatActivity {
             }
         });
 
-        soundListener.registerSoundListener();
+        interactionManager.addInteractionListener(soundListener);
     }
 
-    private void deregisterSoundListener() {
-        if (soundListener != null) {
-            soundListener.stop();
+    // CAMERA LISTENER
+    // TODO / FIXME => How the hell should I get a camera roll
+    private void registerCameraListener() {
+        CameraListener cameraListener = new CameraListener();
+        cameraListener.setOnSensorActionListener(new CameraListener.OnCameraListener() {
+            @Override
+            public void onFrontCameraCovered() {
+                handleInteraction(Interaction.COVER_FRONT_CAMERA);
+            }
+
+            @Override
+            public void onRearCameraCovered() {
+                handleInteraction(Interaction.COVER_REAR_CAMERA);
+            }
+        });
+
+        Intent cameraPictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraPictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(cameraPictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
+        interactionManager.addInteractionListener(cameraListener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            cameraBitmapImage = (Bitmap) extras.get("data");
         }
     }
-
 }

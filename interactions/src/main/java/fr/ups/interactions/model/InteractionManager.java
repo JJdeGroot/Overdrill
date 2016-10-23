@@ -6,6 +6,7 @@ import android.hardware.SensorManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ups.interactions.listeners.DeviceInteractionListener;
 import fr.ups.interactions.listeners.InteractionListener;
 import fr.ups.interactions.listeners.SensorInteractionListener;
 
@@ -62,6 +63,10 @@ public class InteractionManager {
                 for (int sensorType : sensorListener.getSensorTypes()) {
                     sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(sensorType), SensorManager.SENSOR_DELAY_UI);
                 }
+
+            } else if (listener instanceof DeviceInteractionListener) {
+                DeviceInteractionListener deviceInteractionListener = (DeviceInteractionListener) listener;
+                deviceInteractionListener.register();
             }
         }
     }
@@ -77,6 +82,10 @@ public class InteractionManager {
             if (listener instanceof SensorEventListener) {
                 SensorEventListener sensorListener = (SensorEventListener) listener;
                 sensorManager.unregisterListener(sensorListener);
+
+            } else if (listener instanceof DeviceInteractionListener) {
+                DeviceInteractionListener deviceInteractionListener = (DeviceInteractionListener) listener;
+                deviceInteractionListener.deregister();
             }
         }
     }

@@ -56,10 +56,8 @@ public class SoundListener implements DeviceInteractionListener {
         }
     };
 
-    /**
-     * TODO
-     */
-    public void registerSoundListener() {
+    @Override
+    public void register() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -77,10 +75,8 @@ public class SoundListener implements DeviceInteractionListener {
         }
     }
 
-    /**
-     * TODO
-     */
-    public void stop() {
+    @Override
+    public void deregister() {
         if (mediaRecorder != null) {
             ampPollThread.interrupt();
 

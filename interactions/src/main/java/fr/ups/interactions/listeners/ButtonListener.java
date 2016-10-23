@@ -8,7 +8,7 @@ import android.view.KeyEvent;
 /**
  * ButtonListener: listens to button actions.
  */
-public class ButtonListener extends BroadcastReceiver implements DeviceInteractionListener {
+public class ButtonListener {
 
     // OnButtonListener that is called when button press is detected.
     private OnButtonListener buttonListener;
@@ -36,14 +36,6 @@ public class ButtonListener extends BroadcastReceiver implements DeviceInteracti
      */
     public void setOnSensorActionListener(OnButtonListener listener) {
         buttonListener = listener;
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        KeyEvent keyEvent = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
-        if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            buttonListener.onVolumeDown();
-        }
     }
 
 }

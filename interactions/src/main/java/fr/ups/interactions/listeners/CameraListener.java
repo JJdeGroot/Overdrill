@@ -17,7 +17,12 @@ public class CameraListener implements DeviceInteractionListener {
         /**
          * TODO
          */
-        void onAction();
+        void onFrontCameraCovered();
+
+        /**
+         * TODO
+         */
+        void onRearCameraCovered();
     }
 
     /**
@@ -29,4 +34,13 @@ public class CameraListener implements DeviceInteractionListener {
         cameraListener = listener;
     }
 
+    @Override
+    public void register() {
+
+    }
+
+    @Override
+    public void deregister() {
+
+    }
 }
