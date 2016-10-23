@@ -51,6 +51,12 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     public void run() {
         Log.d(TAG, "Generating and starting task!");
 
+        // Stop previous audio if it is still playing
+        if(audioPlayer != null && audioPlayer.isPlaying()) {
+            audioPlayer.stop();
+            audioPlayer.reset();
+        }
+
         // Generate new task and start it
         this.task = newTask();
         playSound(task);
@@ -70,6 +76,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     private void destroyAudioPlayer() {
         if(audioPlayer != null) {
             audioPlayer.stop();
+            audioPlayer.reset();
             audioPlayer.release();
         }
     }
@@ -140,6 +147,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     @Override
     public void onTaskStart(Task task) {
         // Play music
+        Log.d(TAG, "Audio player: " + audioPlayer + ", playing sound: " + playSound);
         if(audioPlayer != null && playSound) {
             audioPlayer.start();
         }
