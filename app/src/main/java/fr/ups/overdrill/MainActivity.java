@@ -175,7 +175,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
     @Override
     public void onTaskTimer(long timeLeft) {
-        timerView.setText(timeLeft + " ms");
+        timerView.setText(""+timeLeft);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
         // Show score
         score++; // TODO: More points based on time left.
-        scoreView.setText("Score: " + score);
+        scoreView.setText(""+score);
 
         onNewTask();
     }
@@ -260,7 +260,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
      * Called when the score should be updated
      */
     private void onScoreUpdate() {
-        scoreView.setText("Score: " + score);
+        scoreView.setText(""+score);
     }
 
     /**
