@@ -169,7 +169,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
     @Override
     public void onTaskStart(Task task) {
-        timerView.setText("");
+        registerActionListener(task.getInteraction());
         commandView.setText(task.getTextID());
     }
 
@@ -187,6 +187,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     @Override
     public void onTaskDone(Task task) {
         logToast("Task " + task + " successfully completed!");
+        removeActionListeners();
 
         // Show score
         score++; // TODO: More points based on time left.
@@ -198,12 +199,14 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     @Override
     public void onTaskWrong(Interaction required, Interaction executed) {
         logToast("Wrong interaction ("+executed+") should have been: " + required);
+        removeActionListeners();
         onGameOver();
     }
 
     @Override
     public void onTaskTimeout(Task task) {
         logToast("Task " + task + " not executed within time");
+        removeActionListeners();
         onGameOver();
     }
 
@@ -216,13 +219,16 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         // Store in hiscores
         handler.insertScore("Development", score);
 
-        // Reset game
-        this.isGameOver = true;
-        showGameOverDialog();
-
         // Reset score
         this.score = 0;
         onScoreUpdate();
+
+        // Reset timer
+        onTaskTimer(0);
+
+        // Reset game
+        this.isGameOver = true;
+        showGameOverDialog();
     }
 
     /**

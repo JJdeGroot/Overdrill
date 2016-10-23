@@ -21,6 +21,7 @@ import fr.ups.interactions.model.InteractionManager;
  */
 public abstract class InteractionActivity extends AppCompatActivity {
 
+    private static final String TAG = "InteractionActivity";
     private ArrayList<Interaction> interactions;
 
     private SensorManager sensorManager;
@@ -36,11 +37,10 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
         // Register interactions
         this.interactions = getInteractions();
+        registerActionListener(Interaction.COVER_LIGHT_SENSOR);
     }
 
-    /*****
-     * STATES
-     *****/
+    /***** STATES *****/
 
     @Override
     protected void onStart() {
@@ -49,12 +49,14 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "PAUSING INTERACTIONS");
         super.onPause();
         interactionManager.onPauseInteractions(sensorManager);
     }
 
     @Override
     protected void onResume() {
+        Log.d(TAG, "RESUMING INTERACTIONS");
         super.onResume();
         interactionManager.onResumeInteractions(sensorManager);
     }
@@ -74,7 +76,6 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
     /**
      * Returns a list of all enabled interactions
-     *
      * @return List of Interaction objects.
      */
     protected abstract ArrayList<Interaction> getInteractions();
@@ -84,8 +85,11 @@ public abstract class InteractionActivity extends AppCompatActivity {
      * The interaction reflects values from Interaction.class.
      */
     public void registerActionListener(Interaction interaction) {
+        Log.d(TAG, "REGISTERING ACTION LISTENER: " + interaction);
+
         switch (interaction) {
             case SHAKE_DEVICE:
+                Log.d(TAG, "Shake listener registered");
                 registerShakeListener();
                 break;
 
@@ -126,12 +130,16 @@ public abstract class InteractionActivity extends AppCompatActivity {
             case BLOW_INTO_MICROPHONE:
                 break;
         }
+
+        // Resume interactions
+        interactionManager.onResumeInteractions(sensorManager);
     }
 
     /**
-     * TODO
+     * Removes all interaction listeners
      */
     public void removeActionListeners() {
+        Log.d(TAG, "REMOVING ALL ACTION LISTENERS");
         interactionManager.removeAllInteractionListeners();
     }
 

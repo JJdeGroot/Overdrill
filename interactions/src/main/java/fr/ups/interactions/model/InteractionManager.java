@@ -42,7 +42,7 @@ public class InteractionManager {
     }
 
     /**
-     * TODO
+     * Removes all interaction listeners
      */
     public void removeAllInteractionListeners() {
         listeners.clear();
@@ -60,9 +60,7 @@ public class InteractionManager {
                 SensorInteractionListener sensorListener = (SensorInteractionListener) listener;
 
                 for (int sensorType : sensorListener.getSensorTypes()) {
-                    sensorManager.registerListener(sensorListener,
-                            sensorManager.getDefaultSensor(sensorType),
-                            SensorManager.SENSOR_DELAY_UI);
+                    sensorManager.registerListener(sensorListener, sensorManager.getDefaultSensor(sensorType), SensorManager.SENSOR_DELAY_UI);
                 }
             }
         }

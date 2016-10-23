@@ -35,14 +35,14 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     private MediaPlayer audioPlayer;
 
-    private InteractionActivity interactionActivity;
-
+    /**
+     * Creates a TaskManager
+     * @param context Context reference
+     */
     public TaskManager(Context context) {
         this.context = context;
         this.tasks = Task.values();
         this.playSound = true;
-
-        interactionActivity = (InteractionActivity) context;
     }
 
     /**
@@ -158,21 +158,18 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     @Override
     public void onTaskStart(Task task) {
-        // Register action listener
-        interactionActivity.registerActionListener(task.getInteraction());
-
         // Play music
         Log.d(TAG, "Audio player: " + audioPlayer + ", playing sound: " + playSound);
         if(audioPlayer != null && playSound) {
             audioPlayer.start();
         }
 
+        // Notify callback
+        callback.onTaskStart(task);
+
         // Start countdown
         this.countdown = new TaskCountDown(TIME_LIMIT, TIME_INTERVAL);
         countdown.start();
-
-        // Notify callback
-        callback.onTaskStart(task);
     }
 
     @Override
@@ -192,21 +189,18 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     @Override
     public void onTaskDone(Task task) {
-        // Remove action listeners
-        interactionActivity.removeActionListeners();
-
         cancelCountdown();
         callback.onTaskDone(task);
     }
 
     @Override
     public void onTaskWrong(Interaction required, Interaction executed) {
-        // Remove action listeners
-        interactionActivity.removeActionListeners();
-
+        // TODO: Ignored for now, uncomment for release, or do something with it.
+        /*
         cancelCountdown();
         stopAudio();
         callback.onTaskWrong(required, executed);
+        */
     }
 
     @Override
