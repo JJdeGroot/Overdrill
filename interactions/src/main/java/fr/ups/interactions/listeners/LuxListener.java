@@ -3,6 +3,9 @@ package fr.ups.interactions.listeners;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * LuxListener: listens to changes in light sensitivity.
  */
@@ -50,7 +53,9 @@ public class LuxListener implements SensorInteractionListener {
     }
 
     @Override
-    public int getSensorType() {
-        return Sensor.TYPE_LIGHT;
+    public List<Integer> getSensorTypes() {
+        List<Integer> sensorList = new ArrayList<>();
+        sensorList.add(Sensor.TYPE_LIGHT);
+        return sensorList;
     }
 }

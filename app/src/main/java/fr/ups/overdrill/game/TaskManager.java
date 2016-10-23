@@ -8,8 +8,10 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
+import fr.ups.interactions.InteractionActivity;
 import fr.ups.interactions.model.Interaction;
 
 /**
@@ -33,10 +35,14 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     private MediaPlayer audioPlayer;
 
+    private InteractionActivity interactionActivity;
+
     public TaskManager(Context context) {
         this.context = context;
         this.tasks = Task.values();
         this.playSound = true;
+
+        interactionActivity = (InteractionActivity) context;
     }
 
     /**
@@ -142,9 +148,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     private Task newTask() {
         // List of tasks except current task
         ArrayList<Task> list = new ArrayList<Task>();
-        for(Task task : tasks) {
-            list.add(task);
-        }
+        Collections.addAll(list, tasks);
         list.remove(this.task);
 
         // Return random task
@@ -154,6 +158,9 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     @Override
     public void onTaskStart(Task task) {
+        // Register action listener
+        interactionActivity.registerActionListener(task.getInteraction());
+
         // Play music
         Log.d(TAG, "Audio player: " + audioPlayer + ", playing sound: " + playSound);
         if(audioPlayer != null && playSound) {
@@ -185,12 +192,18 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     @Override
     public void onTaskDone(Task task) {
+        // Remove action listeners
+        interactionActivity.removeActionListeners();
+
         cancelCountdown();
         callback.onTaskDone(task);
     }
 
     @Override
     public void onTaskWrong(Interaction required, Interaction executed) {
+        // Remove action listeners
+        interactionActivity.removeActionListeners();
+
         cancelCountdown();
         stopAudio();
         callback.onTaskWrong(required, executed);

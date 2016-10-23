@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import fr.ups.interactions.listeners.ButtonListener;
 import fr.ups.interactions.listeners.LuxListener;
 import fr.ups.interactions.listeners.ShakeListener;
+import fr.ups.interactions.listeners.TiltListener;
 import fr.ups.interactions.model.Interaction;
 import fr.ups.interactions.model.InteractionManager;
 
@@ -34,10 +36,11 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
         // Register interactions
         this.interactions = getInteractions();
-        registerActionListeners();
     }
 
-    /***** STATES *****/
+    /*****
+     * STATES
+     *****/
 
     @Override
     protected void onStart() {
@@ -71,61 +74,70 @@ public abstract class InteractionActivity extends AppCompatActivity {
 
     /**
      * Returns a list of all enabled interactions
+     *
      * @return List of Interaction objects.
      */
     protected abstract ArrayList<Interaction> getInteractions();
 
     /**
-     * Registers the action listener based on the integer array passed.
-     * The integer array reflects values from SensorListenerType.class.
+     * Registers the action listener based on the Interaction passed.
+     * The interaction reflects values from Interaction.class.
      */
-    private void registerActionListeners() {
-        for(Interaction interaction : interactions) {
-            switch(interaction) {
+    public void registerActionListener(Interaction interaction) {
+        switch (interaction) {
+            case SHAKE_DEVICE:
+                registerShakeListener();
+                break;
 
-                case SHAKE_DEVICE:
-                    registerShakeListener();
-                    break;
+            case TILT_DEVICE_UP:
+                registerTiltListener();
+                break;
 
-                case TILT_DEVICE_UP:
+            case TILT_DEVICE_RIGHT:
+                registerTiltListener();
+                break;
 
-                    break;
+            case TILT_DEVICE_DOWN:
+                registerTiltListener();
+                break;
 
-                case TILT_DEVICE_RIGHT:
-                    break;
+            case TILT_DEVICE_LEFT:
+                registerTiltListener();
+                break;
 
-                case TILT_DEVICE_DOWN:
-                    break;
+            case COVER_FRONT_CAMERA:
+                break;
 
-                case TILT_DEVICE_LEFT:
-                    break;
+            case COVER_REAR_CAMERA:
+                break;
 
-                case COVER_FRONT_CAMERA:
-                    break;
+            case COVER_LIGHT_SENSOR:
+                registerLuxListener();
+                break;
 
-                case COVER_REAR_CAMERA:
-                    break;
+            case PRESS_VOLUME_UP:
+                registerVolumeUpListener();
+                break;
 
-                case COVER_LIGHT_SENSOR:
-                    registerLuxListener();
-                    break;
+            case PRESS_VOLUME_DOWN:
+                registerVolumeDownListener();
+                break;
 
-                case PRESS_VOLUME_UP:
-                    registerVolumeUpListener();
-                    break;
-
-                case PRESS_VOLUME_DOWN:
-                    registerVolumeDownListener();
-                    break;
-
-                case BLOW_INTO_MICROPHONE:
-                    break;
-            }
+            case BLOW_INTO_MICROPHONE:
+                break;
         }
     }
 
     /**
+     * TODO
+     */
+    public void removeActionListeners() {
+        interactionManager.removeAllInteractionListeners();
+    }
+
+    /**
      * Called on an interaction event
+     *
      * @param interaction The interaction which occurred
      */
     protected abstract void handleInteraction(Interaction interaction);
@@ -143,6 +155,33 @@ public abstract class InteractionActivity extends AppCompatActivity {
         interactionManager.addInteractionListener(shakeListener);
     }
 
+    // TILT LISTENER
+    private void registerTiltListener() {
+        TiltListener tiltListener = new TiltListener();
+        tiltListener.setOnSensorActionListener(new TiltListener.OnTiltListener() {
+            @Override
+            public void onTiltUp() {
+                handleInteraction(Interaction.TILT_DEVICE_UP);
+            }
+
+            @Override
+            public void onTiltDown() {
+                handleInteraction(Interaction.TILT_DEVICE_DOWN);
+            }
+
+            @Override
+            public void onTiltLeft() {
+                handleInteraction(Interaction.TILT_DEVICE_LEFT);
+            }
+
+            @Override
+            public void onTiltRight() {
+                handleInteraction(Interaction.TILT_DEVICE_RIGHT);
+            }
+        });
+        interactionManager.addInteractionListener(tiltListener);
+    }
+
     // BUTTON LISTENERS
     private boolean volumeUp, volumeDown;
 
@@ -156,9 +195,9 @@ public abstract class InteractionActivity extends AppCompatActivity {
             }
         }
 
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             // Check if volume down interaction is enabled
-            if(volumeDown) {
+            if (volumeDown) {
                 onVolumeDown();
                 return true;
             }

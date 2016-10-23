@@ -5,6 +5,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.util.FloatMath;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ShakeListener: listens for shake events.tc
  */
@@ -43,8 +46,10 @@ public class ShakeListener implements SensorInteractionListener {
     }
 
     @Override
-    public int getSensorType() {
-        return Sensor.TYPE_ACCELEROMETER;
+    public List<Integer> getSensorTypes() {
+        List<Integer> sensorList = new ArrayList<>();
+        sensorList.add(Sensor.TYPE_ACCELEROMETER);
+        return sensorList;
     }
 
     @Override
@@ -68,6 +73,7 @@ public class ShakeListener implements SensorInteractionListener {
 
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 final long now = System.currentTimeMillis();
+
                 // ignore shake events too close to each other (500ms)
                 if (mShakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
                     return;
@@ -81,7 +87,9 @@ public class ShakeListener implements SensorInteractionListener {
                 mShakeTimestamp = now;
                 mShakeCount++;
 
-                shakeListener.onShake();
+                if (mShakeCount > 3) {
+                    shakeListener.onShake();
+                }
             }
         }
     }

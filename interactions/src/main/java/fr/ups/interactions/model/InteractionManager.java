@@ -42,6 +42,13 @@ public class InteractionManager {
     }
 
     /**
+     * TODO
+     */
+    public void removeAllInteractionListeners() {
+        listeners.clear();
+    }
+
+    /**
      * Register all the listeners when the android application resumes.
      * This helps with battery consumption.
      *
@@ -51,9 +58,12 @@ public class InteractionManager {
         for (InteractionListener listener : listeners) {
             if (listener instanceof SensorEventListener) {
                 SensorInteractionListener sensorListener = (SensorInteractionListener) listener;
-                sensorManager.registerListener(sensorListener,
-                        sensorManager.getDefaultSensor(sensorListener.getSensorType()),
-                        SensorManager.SENSOR_DELAY_UI);
+
+                for (int sensorType : sensorListener.getSensorTypes()) {
+                    sensorManager.registerListener(sensorListener,
+                            sensorManager.getDefaultSensor(sensorType),
+                            SensorManager.SENSOR_DELAY_UI);
+                }
             }
         }
     }
