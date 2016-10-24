@@ -128,7 +128,6 @@ public abstract class InteractionActivity extends PermissionActivity {
 
         switch (interaction) {
             case SHAKE_DEVICE:
-                Log.d(TAG, "Shake listener registered");
                 registerShakeListener();
                 break;
 
@@ -149,11 +148,11 @@ public abstract class InteractionActivity extends PermissionActivity {
                 break;
 
             case COVER_FRONT_CAMERA:
-                registerCameraListener();
+                //registerCameraListener();
                 break;
 
             case COVER_REAR_CAMERA:
-                registerCameraListener();
+                //registerCameraListener();
                 break;
 
             case COVER_LIGHT_SENSOR:
@@ -307,7 +306,7 @@ public abstract class InteractionActivity extends PermissionActivity {
 
     // SOUND LISTENER
     private void registerSoundListener() {
-        SoundListener soundListener = new SoundListener();
+        SoundListener soundListener = new SoundListener(getFilesDir());
         soundListener.setOnSensorActionListener(new SoundListener.OnSoundListener() {
             @Override
             public void onMicrophoneBlow() {
