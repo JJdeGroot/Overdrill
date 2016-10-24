@@ -40,19 +40,20 @@ public abstract class InteractionActivity extends PermissionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
 
-    /**
-     * Initialize everything needed
-     */
-    protected void init() {
         // Managers
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.interactionManager = new InteractionManager();
 
         // Register interactions
         this.interactions = getInteractions();
-        registerActionListener(Interaction.COVER_LIGHT_SENSOR);
+    }
+
+    /**
+     * Initialize everything needed
+     */
+    protected void init() {
+        // TODO: Notify interaction managers which interactions are possible with the permissions that we have
     }
 
     /*** Permissions ***/
