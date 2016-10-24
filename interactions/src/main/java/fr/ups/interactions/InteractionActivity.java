@@ -1,14 +1,15 @@
 package fr.ups.interactions;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,9 +23,9 @@ import fr.ups.interactions.model.Interaction;
 import fr.ups.interactions.model.InteractionManager;
 
 /**
- * Abstract activity which provides easy access to sensor actions
+ * Abstract activity which provides easy access to device interactions
  */
-public abstract class InteractionActivity extends AppCompatActivity {
+public abstract class InteractionActivity extends PermissionActivity {
 
     private static final String TAG = "InteractionActivity";
 
@@ -39,7 +40,12 @@ public abstract class InteractionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    /**
+     * Initialize everything needed
+     */
+    protected void init() {
         // Managers
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.interactionManager = new InteractionManager();
@@ -47,6 +53,26 @@ public abstract class InteractionActivity extends AppCompatActivity {
         // Register interactions
         this.interactions = getInteractions();
         registerActionListener(Interaction.COVER_LIGHT_SENSOR);
+    }
+
+    /*** Permissions ***/
+
+    private static final String[] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
+            ///Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+    @Override
+    protected String[] getRequiredPermissions() {
+        return permissions;
+    }
+
+    @Override
+    public void onPermissionsGranted() {
+        init();
+    }
+
+    @Override
+    public void onUngrantedPermissions(String[] permissions, int[] grantResults) {
+        Toast.makeText(this, R.string.permissions_required, Toast.LENGTH_SHORT).show();
     }
 
     /*****

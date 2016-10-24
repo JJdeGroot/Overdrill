@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Interaction</string>
+    <string name="permissions_required">The permissions are required to do all interactions</string>
 </resources>

@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.ups.overdrill">
 
-    <!-- User Permissions -->
+    <!-- Blow into microphone -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-feature android:name="android.hardware.MICROPHONE" android:required="false" />
+
+    <!-- Cover front/rear camera -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:allowBackup="true"
