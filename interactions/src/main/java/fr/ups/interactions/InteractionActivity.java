@@ -292,7 +292,7 @@ public abstract class InteractionActivity extends AppCompatActivity {
     }
 
     // CAMERA LISTENER
-    // TODO / FIXME => How the hell should I get a camera roll
+    // TODO / FIXME => Camera preview will open each time the register gets called
     private void registerCameraListener() {
         CameraListener cameraListener = new CameraListener();
         cameraListener.setOnSensorActionListener(new CameraListener.OnCameraListener() {

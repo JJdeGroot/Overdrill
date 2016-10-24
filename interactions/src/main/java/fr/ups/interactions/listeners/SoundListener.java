@@ -45,7 +45,7 @@ public class SoundListener implements DeviceInteractionListener {
                 while (!Thread.currentThread().isInterrupted()) {
                     sleep(POLL_FREQ_MS);
                     Log.d("AMP", Double.toString(getAmplitude()));
-                    if (getAmplitude() > 5) {
+                    if (getAmplitude() > 0.5) {
                         soundListener.onMicrophoneBlow();
                     }
                 }
