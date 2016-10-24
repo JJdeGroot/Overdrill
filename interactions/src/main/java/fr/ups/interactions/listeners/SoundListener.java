@@ -38,7 +38,7 @@ public class SoundListener implements DeviceInteractionListener {
         soundListener = listener;
     }
 
-    Thread ampPollThread = new Thread() {
+    private Thread ampPollThread = new Thread() {
         @Override
         public void run() {
             try {
