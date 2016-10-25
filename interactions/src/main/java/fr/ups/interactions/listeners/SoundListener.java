@@ -1,5 +1,6 @@
 package fr.ups.interactions.listeners;
 
+import android.content.Context;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
@@ -65,7 +66,7 @@ public class SoundListener implements DeviceInteractionListener {
     }
 
     @Override
-    public void register() {
+    public void register(Context context) {
         String fileLocation = getFileLocation();
         Log.d(TAG, "File location: " + fileLocation);
 
@@ -106,7 +107,7 @@ public class SoundListener implements DeviceInteractionListener {
     }
 
     @Override
-    public void deregister() {
+    public void deregister(Context context) {
         if (mediaRecorder != null) {
             try {
                 mediaRecorder.stop();

@@ -56,10 +56,12 @@ public abstract class InteractionActivity extends PermissionActivity {
         // TODO: Notify interaction managers which interactions are possible with the permissions that we have
     }
 
-    /*** Permissions ***/
+    /***
+     * Permissions
+     ***/
 
-    private static final String[] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
-            ///Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    private static final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
+    ///Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
     @Override
     protected String[] getRequiredPermissions() {
@@ -89,14 +91,14 @@ public abstract class InteractionActivity extends PermissionActivity {
     protected void onPause() {
         Log.d(TAG, "PAUSING INTERACTIONS");
         super.onPause();
-        interactionManager.onPauseInteractions(sensorManager);
+        interactionManager.onPauseInteractions(sensorManager, this);
     }
 
     @Override
     protected void onResume() {
         Log.d(TAG, "RESUMING INTERACTIONS");
         super.onResume();
-        interactionManager.onResumeInteractions(sensorManager);
+        interactionManager.onResumeInteractions(sensorManager, this);
     }
 
     @Override
@@ -148,11 +150,11 @@ public abstract class InteractionActivity extends PermissionActivity {
                 break;
 
             case COVER_FRONT_CAMERA:
-                //registerCameraListener();
+                registerCameraListener();
                 break;
 
             case COVER_REAR_CAMERA:
-                //registerCameraListener();
+                registerCameraListener();
                 break;
 
             case COVER_LIGHT_SENSOR:
@@ -173,7 +175,7 @@ public abstract class InteractionActivity extends PermissionActivity {
         }
 
         // Resume interactions
-        interactionManager.onResumeInteractions(sensorManager);
+        interactionManager.onResumeInteractions(sensorManager, this);
     }
 
     /**
@@ -181,7 +183,7 @@ public abstract class InteractionActivity extends PermissionActivity {
      */
     public void removeActionListeners() {
         Log.d(TAG, "REMOVING ALL ACTION LISTENERS");
-        interactionManager.onPauseInteractions(sensorManager);
+        interactionManager.onPauseInteractions(sensorManager, this);
         interactionManager.removeAllInteractionListeners();
     }
 
@@ -318,7 +320,6 @@ public abstract class InteractionActivity extends PermissionActivity {
     }
 
     // CAMERA LISTENER
-    // TODO / FIXME => Camera preview will open each time the register gets called
     private void registerCameraListener() {
         CameraListener cameraListener = new CameraListener();
         cameraListener.setOnSensorActionListener(new CameraListener.OnCameraListener() {
@@ -333,21 +334,6 @@ public abstract class InteractionActivity extends PermissionActivity {
             }
         });
 
-        Intent cameraPictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraPictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(cameraPictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-
         interactionManager.addInteractionListener(cameraListener);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            cameraBitmapImage = (Bitmap) extras.get("data");
-        }
     }
 }

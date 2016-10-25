@@ -1,5 +1,6 @@
 package fr.ups.interactions.model;
 
+import android.content.Context;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
@@ -55,7 +56,7 @@ public class InteractionManager {
      *
      * @param sensorManager SensorManager instance
      */
-    public void onResumeInteractions(SensorManager sensorManager) {
+    public void onResumeInteractions(SensorManager sensorManager, Context context) {
         for (InteractionListener listener : listeners) {
             if (listener instanceof SensorEventListener) {
                 SensorInteractionListener sensorListener = (SensorInteractionListener) listener;
@@ -66,7 +67,7 @@ public class InteractionManager {
 
             } else if (listener instanceof DeviceInteractionListener) {
                 DeviceInteractionListener deviceInteractionListener = (DeviceInteractionListener) listener;
-                deviceInteractionListener.register();
+                deviceInteractionListener.register(context);
             }
         }
     }
@@ -77,7 +78,7 @@ public class InteractionManager {
      *
      * @param sensorManager SensorManager instance
      */
-    public void onPauseInteractions(SensorManager sensorManager) {
+    public void onPauseInteractions(SensorManager sensorManager, Context context) {
         for (InteractionListener listener : listeners) {
             if (listener instanceof SensorEventListener) {
                 SensorEventListener sensorListener = (SensorEventListener) listener;
@@ -85,7 +86,7 @@ public class InteractionManager {
 
             } else if (listener instanceof DeviceInteractionListener) {
                 DeviceInteractionListener deviceInteractionListener = (DeviceInteractionListener) listener;
-                deviceInteractionListener.deregister();
+                deviceInteractionListener.deregister(context);
             }
         }
     }
