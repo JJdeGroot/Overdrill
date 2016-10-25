@@ -93,10 +93,9 @@ public class SoundListener implements DeviceInteractionListener {
                 // Check amplitude
                 if (mediaRecorder != null) {
                     int amplitude = mediaRecorder.getMaxAmplitude();
-                    Log.d(TAG, "Amplitude: " + amplitude);
 
                     if (amplitude > REQUIRED_AMPLITUDE) {
-                        Log.d(TAG, "ON MICROPHONE BLOW");
+                        //Log.d(TAG, "ON MICROPHONE BLOW");
                         soundListener.onMicrophoneBlow();
                     } else {
                         handler.postDelayed(this, POLL_FREQ_MS);

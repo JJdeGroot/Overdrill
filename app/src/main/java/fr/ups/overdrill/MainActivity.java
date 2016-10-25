@@ -2,6 +2,8 @@ package fr.ups.overdrill;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -193,13 +195,16 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
     @Override
     public void onTaskDone(Task task, long timeLeft) {
-        logToast("Task " + task + " successfully completed!");
-        removeActionListeners();
+        // Notify user
+        ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
+        toneGenerator.startTone(ToneGenerator.TONE_CDMA_HIGH_L, 150);
 
         // Show score
         score += timeLeft;
-        scoreView.setText(""+score);
+        onScoreUpdate();
 
+        // New task
+        removeActionListeners();
         onNewTask();
     }
 
