@@ -22,7 +22,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
     private static final String TAG = "TaskManager";
 
-    private static final long TIME_LIMIT = 10000,
+    private static final long TIME_LIMIT = 5000,
                               TIME_INTERVAL = 10;
 
     private Context context;
@@ -181,26 +181,16 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     public void onInteraction(Interaction interaction) {
         // Check if interaction is correct for given task.
         if(task.getInteraction() == interaction) {
-            onTaskDone(task);
+            onTaskDone(task, getCountdownTime());
         }else{
-            onTaskWrong(task.getInteraction(), interaction);
+            // Not correct, it is ignored.
         }
     }
 
     @Override
-    public void onTaskDone(Task task) {
+    public void onTaskDone(Task task, long timeLeft) {
         cancelCountdown();
-        callback.onTaskDone(task);
-    }
-
-    @Override
-    public void onTaskWrong(Interaction required, Interaction executed) {
-        // TODO: Ignored for now, uncomment for release, or do something with it.
-        /*
-        cancelCountdown();
-        stopAudio();
-        callback.onTaskWrong(required, executed);
-        */
+        callback.onTaskDone(task, timeLeft);
     }
 
     @Override
@@ -219,9 +209,22 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     }
 
     /**
+     * Returns the time left on the countdown
+     * @return Time left on countdown
+     */
+    public long getCountdownTime() {
+        if(countdown != null) {
+            return countdown.getTimeLeft();
+        }
+        return 0;
+    }
+
+    /**
      * Class which handles the countdown.
      */
     private class TaskCountDown extends CountDownTimer {
+
+        private long timeLeft;
 
         public TaskCountDown(long startTime, long interval) {
             super(startTime, interval);
@@ -235,7 +238,16 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
 
         @Override
         public void onTick(long millisUntilFinished) {
+            this.timeLeft = millisUntilFinished;
             onTaskTimer(millisUntilFinished);
+        }
+
+        /**
+         * Returns the time left on the countdown
+         * @return Time left to finish
+         */
+        public long getTimeLeft() {
+            return timeLeft;
         }
 
     }

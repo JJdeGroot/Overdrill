@@ -11,8 +11,7 @@ public interface TaskCallback {
     void onTaskStart(Task task);
 
     void onInteraction(Interaction interaction);
-    void onTaskDone(Task task);
-    void onTaskWrong(Interaction required, Interaction executed);
+    void onTaskDone(Task task, long timeLeft);
 
     void onTaskTimer(long timeLeft);
     void onTaskTimeout(Task task);

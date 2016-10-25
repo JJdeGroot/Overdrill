@@ -3,7 +3,9 @@ package fr.ups.overdrill;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -70,8 +72,13 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         this.taskManager = new TaskManager(this);
         taskManager.setCallback(this);
 
-        // Start the game!
-        onNewGame();
+        // Start new game after 5 seconds.
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onNewGame();
+            }
+        }, 5000);
     }
 
     @Override
@@ -185,29 +192,21 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     }
 
     @Override
-    public void onTaskDone(Task task) {
+    public void onTaskDone(Task task, long timeLeft) {
         logToast("Task " + task + " successfully completed!");
         removeActionListeners();
 
         // Show score
-        score++; // TODO: More points based on time left.
+        score += timeLeft;
         scoreView.setText(""+score);
 
         onNewTask();
     }
 
     @Override
-    public void onTaskWrong(Interaction required, Interaction executed) {
-        logToast("Wrong interaction ("+executed+") should have been: " + required);
-        removeActionListeners();
-        onGameOver();
-    }
-
-    @Override
     public void onTaskTimeout(Task task) {
-        logToast("Task " + task + " not executed within time");
         removeActionListeners();
-        onGameOver();
+        onGameOver(task);
     }
 
     /***** GAME OVER *****/
@@ -215,7 +214,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     /**
      * Called when it's game over
      */
-    private void onGameOver() {
+    private void onGameOver(Task task) {
         // Store in hiscores
         handler.insertScore("Development", score);
 
@@ -228,20 +227,26 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
         // Reset game
         this.isGameOver = true;
-        showGameOverDialog();
+        showGameOverDialog(task);
     }
 
     /**
      * Displays a game over dialog
      */
-    private void showGameOverDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.game_over);
-        builder.setCancelable(true);
+    private void showGameOverDialog(Task task) {
+        // AlertDialog with custom Dark style
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.DialogTheme));
+        builder.setCancelable(false);
+
+        // Title
+        builder.setTitle(R.string.game_over);
+        // Message
+        String interaction = getString(task.getTextID());
+        builder.setMessage("PRIVATE, YOU DID NOT " + interaction + " WITHIN TIME.");
 
         // Start a new game
         builder.setPositiveButton(
-                "New game",
+                R.string.new_game,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -251,7 +256,7 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
         // Quit app
         builder.setNegativeButton(
-                "Quit",
+                R.string.quit,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

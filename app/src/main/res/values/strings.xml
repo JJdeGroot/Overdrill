@@ -5,7 +5,10 @@
     <string name="activity_hiscore">Hiscore</string>
 
     <!-- Game -->
+    <string name="game_starting_soon">PRIVATE, YOU HAVE FIVE SECONDS...</string>
     <string name="game_over">GAME OVER</string>
+    <string name="quit">QUIT (COWARD)</string>
+    <string name="new_game">NEW GAME</string>
 
     <!-- Menu -->
     <string name="action_info">Information</string>
