@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_interaction_info"
+    android:id="@+id/activity_task_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="@color/black"
     android:orientation="vertical"
-    tools:context="fr.ups.overdrill.info.InteractionInfoActivity">
+    tools:context="fr.ups.overdrill.info.TaskInfoActivity">
 
     <TextView
-        android:id="@+id/activity_interaction_info_TextView"
+        android:id="@+id/activity_task_info_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="18sp"/>
+
+    <ImageView
+        android:id="@+id/activity_task_info_IconView"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"/>
 </LinearLayout>

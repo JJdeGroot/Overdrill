@@ -16,16 +16,29 @@
     <string name="action_hiscore">Hiscores</string>
 
     <!-- Tasks -->
-    <string name="shake_your_device">SHAKE YOUR DEVICE</string>
-    <string name="tilt_your_device_up">TILT YOUR DEVICE UP</string>
-    <string name="tilt_your_device_right">TILT YOUR DEVICE RIGHT</string>
-    <string name="tilt_your_device_down">TILT YOUR DEVICE DOWN</string>
-    <string name="tilt_your_device_left">TILT YOUR DEVICE LEFT</string>
-    <string name="cover_the_front_camera">COVER THE FRONT CAMERA</string>
-    <string name="cover_the_rear_camera">COVER THE REAR CAMERA</string>
-    <string name="cover_the_light_sensor">COVER THE LIGHT SENSOR</string>
-    <string name="press_volume_up">PRESS VOLUME UP</string>
-    <string name="press_volume_down">PRESS VOLUME DOWN</string>
-    <string name="blow_into_the_microphone">BLOW INTO THE MICROPHONE</string>
+    <string name="shake_your_device">Shake your device</string>
+    <string name="tilt_your_device_up">Tilt your device up</string>
+    <string name="tilt_your_device_right">Tilt your device right</string>
+    <string name="tilt_your_device_down">Tilt your device down</string>
+    <string name="tilt_your_device_left">Tilt your device left</string>
+    <string name="cover_the_front_camera">Cover the front camera</string>
+    <string name="cover_the_rear_camera">Cover the rear camera</string>
+    <string name="cover_the_light_sensor">Cover the light sensor</string>
+    <string name="press_volume_up">Press volume up</string>
+    <string name="press_volume_down">Press volume down</string>
+    <string name="blow_into_the_microphone">Blow into the microphone</string>
+
+    <!-- Task explanations -->
+    <string name="explanation_shake_your_device">Hold your device tightly and shake it in all directions!</string>
+    <string name="explanation_tilt_your_device_up">Tilt your device up.</string>
+    <string name="explanation_tilt_your_device_right">Tilt your device right.</string>
+    <string name="explanation_tilt_your_device_down">Tilt your device down.</string>
+    <string name="explanation_tilt_your_device_left">Tilt your device left.</string>
+    <string name="explanation_cover_the_front_camera">Place your hand over the front camera. Make sure to block all light!</string>
+    <string name="explanation_cover_the_rear_camera">Place your hand over the rear camera. Make sure to block all light!</string>
+    <string name="explanation_cover_the_light_sensor">Place your hand over the light sensor. Make sure to block all light!</string>
+    <string name="explanation_press_volume_up">Press the volume up button.</string>
+    <string name="explanation_press_volume_down">Press the volume down button.</string>
+    <string name="explanation_blow_into_the_microphone">Blow air into the microphone.</string>
 
 </resources>

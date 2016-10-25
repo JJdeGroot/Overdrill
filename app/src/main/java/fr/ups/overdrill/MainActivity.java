@@ -179,7 +179,9 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     @Override
     public void onTaskStart(Task task) {
         registerActionListener(task.getInteraction());
-        commandView.setText(task.getTextID());
+
+        String command = getString(task.getTextID());
+        commandView.setText(command.toUpperCase());
     }
 
     @Override

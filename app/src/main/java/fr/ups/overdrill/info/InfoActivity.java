@@ -2,30 +2,25 @@ package fr.ups.overdrill.info;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.R;
+import fr.ups.overdrill.game.Task;
 
 /**
  * Activity where all sensors are listed.
  */
 public class InfoActivity extends ParentActivity {
 
-    private static final String TAG = "InteractionActivity";
+    private static final String TAG = "InfoActivity";
     private static final int REQUEST_CODE = 1;
     private InteractionAdapter adapter;
 
@@ -39,7 +34,7 @@ public class InfoActivity extends ParentActivity {
         gridView.setOnItemClickListener(new InteractionListener());
 
         // Adapter
-        this.adapter = new InteractionAdapter(this, Interaction.values());
+        this.adapter = new InteractionAdapter(this, Task.values());
         gridView.setAdapter(adapter);
     }
 
@@ -52,10 +47,10 @@ public class InfoActivity extends ParentActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Log.d(TAG, "Clicked on position #" + position);
 
-            Interaction interaction = adapter.getItem(position);
+            Task task = adapter.getItem(position);
 
-            Intent intent = new Intent(getApplicationContext(), InteractionInfoActivity.class);
-            intent.putExtra("interaction", interaction);
+            Intent intent = new Intent(getApplicationContext(), TaskInfoActivity.class);
+            intent.putExtra("task", task);
             startActivityForResult(intent, REQUEST_CODE);
         }
     }
@@ -63,10 +58,10 @@ public class InfoActivity extends ParentActivity {
     /**
      * Adapter to display interactions
      */
-    private class InteractionAdapter extends ArrayAdapter<Interaction> {
+    private class InteractionAdapter extends ArrayAdapter<Task> {
 
-        public InteractionAdapter(Context context, Interaction[] interactions) {
-            super(context, -1, interactions);
+        public InteractionAdapter(Context context, Task[] tasks) {
+            super(context, -1, tasks);
         }
 
         @Override
@@ -75,11 +70,15 @@ public class InfoActivity extends ParentActivity {
                 view = getLayoutInflater().inflate(R.layout.layout_info, parent, false);
             }
 
-            Interaction interaction = getItem(position);
+            Task task = getItem(position);
+
+            // IconView
+            ImageView iconView = (ImageView) view.findViewById(R.id.layout_info_IconView);
+            iconView.setImageResource(task.getIconID());
 
             // TextView
             TextView textView = (TextView) view.findViewById(R.id.layout_info_TextView);
-            textView.setText(interaction.toString());
+            textView.setText(task.getTextID());
 
             return view;
         }

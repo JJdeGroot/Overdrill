@@ -39,7 +39,7 @@
 
         <!-- Info: sensor -->
         <activity
-            android:name=".info.InteractionInfoActivity"
+            android:name=".info.TaskInfoActivity"
             android:screenOrientation="portrait" />
 
     </application>
