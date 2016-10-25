@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 
 import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.database.DbHandler;
@@ -85,14 +87,9 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
 
     @Override
     protected ArrayList<Interaction> getInteractions() {
-        ArrayList<Interaction> list = new ArrayList<Interaction>();
+        EnumSet<Interaction> list = EnumSet.allOf(Interaction.class);
 
-        Interaction[] interactions = Interaction.values();
-        for(Interaction interaction : interactions) {
-            list.add(interaction);
-        }
-
-        return list;
+        return new ArrayList<>(list.size());
     }
 
     @Override
