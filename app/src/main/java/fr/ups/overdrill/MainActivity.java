@@ -88,7 +88,6 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
     @Override
     protected ArrayList<Interaction> getInteractions() {
         EnumSet<Interaction> list = EnumSet.allOf(Interaction.class);
-
         return new ArrayList<>(list);
     }
 

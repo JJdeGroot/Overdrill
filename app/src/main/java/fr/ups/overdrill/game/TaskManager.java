@@ -151,6 +151,10 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
         Collections.addAll(list, tasks);
         list.remove(this.task);
 
+        // Remove camera tasks
+        list.remove(Task.COVER_FRONT_CAMERA);
+        list.remove(Task.COVER_REAR_CAMERA);
+
         // Return random task
         int random = new Random().nextInt(list.size());
         return list.get(random);
@@ -204,7 +208,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
      */
     public void cancelCountdown() {
         if(countdown != null) {
-            countdown.cancel();
+            countdown.doCancel();
         }
     }
 
@@ -225,15 +229,27 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
     private class TaskCountDown extends CountDownTimer {
 
         private long timeLeft;
+        private boolean cancelled;
 
         public TaskCountDown(long startTime, long interval) {
             super(startTime, interval);
         }
 
+        /**
+         * Cancels the task
+         */
+        public void doCancel() {
+            super.cancel();
+            cancelled = true;
+        }
+
         @Override
         public void onFinish() {
             Log.d(TAG, "Countdown has finished, task failed.");
-            onTaskTimeout(task);
+
+            if(!cancelled) {
+                onTaskTimeout(task);
+            }
         }
 
         @Override
