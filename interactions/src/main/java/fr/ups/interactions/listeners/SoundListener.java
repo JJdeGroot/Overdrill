@@ -23,8 +23,10 @@ public class SoundListener implements DeviceInteractionListener {
 
     // OnSoundListener that is called when sound is detected.
     private OnSoundListener soundListener;
-    private MediaRecorder mediaRecorder;
+    private int blowCount = 0;
 
+    // Audio recording
+    private MediaRecorder mediaRecorder;
     private File directory;
 
     /**
@@ -95,10 +97,16 @@ public class SoundListener implements DeviceInteractionListener {
                 if (mediaRecorder != null) {
                     int amplitude = mediaRecorder.getMaxAmplitude();
 
-                    if (amplitude > REQUIRED_AMPLITUDE) {
-                        //Log.d(TAG, "ON MICROPHONE BLOW");
+                    // Check for microphone blow
+                    if(amplitude > REQUIRED_AMPLITUDE) {
+                        Log.d(TAG, "ON MICROPHONE BLOW");
+                        blowCount++;
+                    }
+
+                    // Check for minimum three consequetive times
+                    if(blowCount >= 2) {
                         soundListener.onMicrophoneBlow();
-                    } else {
+                    }else{
                         handler.postDelayed(this, POLL_FREQ_MS);
                     }
                 }
@@ -118,6 +126,7 @@ public class SoundListener implements DeviceInteractionListener {
                 e.printStackTrace();
             }
         }
+        mediaRecorder = null;
     }
 
 }
