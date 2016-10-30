@@ -7,7 +7,7 @@ Overdrill is a game where the player(s) need to follow the orders of a Drill Ser
 More information about the game can be found in the [Game Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Overdrill).
 
 ## Installation
-More information about the installation can be found in the [Installation Guide](https://github.com/JJdeGroot/Overdrill/wiki/Installation-Guide).
+More information about the installation can be found in the [Installation Guide](https://github.com/JJdeGroot/Overdrill/wiki/Overdrill).
 
 ## Interactions Library
 The core component of the game is based on various sensors. We have written a library that takes care of many sensor events. More information can be found in the [Interactions Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Interactions-Library).
