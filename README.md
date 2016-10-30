@@ -9,8 +9,8 @@ More information about the game can be found in the [Game Wiki](https://github.c
 ## Installation
 More information about the installation can be found in the [Installation Guide](https://github.com/JJdeGroot/Overdrill/wiki/Installation-Guide).
 
-## Sensoraction Library
-The core component of the game is based on various sensors. We have written a library that takes care of many sensor events. More information can be found in the [Sensoraction Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Sensoraction-Library).
+## Interactions Library
+The core component of the game is based on various sensors. We have written a library that takes care of many sensor events. More information can be found in the [Interactions Wiki](https://github.com/JJdeGroot/Overdrill/wiki/Sensoraction-Library).
 
 ## License
 ```
