@@ -67,18 +67,18 @@ public class ShakeListener implements SensorInteractionListener {
             float gY = y / SensorManager.GRAVITY_EARTH;
             float gZ = z / SensorManager.GRAVITY_EARTH;
 
-            // gForce will be close to 1 when there is no movement.
+            // gForce will be close to 1 when there is no movement
             double gForce = Math.sqrt(gX * gX + gY * gY + gZ * gZ);
 
             if (gForce > SHAKE_THRESHOLD_GRAVITY) {
                 final long now = System.currentTimeMillis();
 
-                // ignore shake events too close to each other (500ms)
+                // Ignore shake events too close to each other
                 if (shakeTimestamp + SHAKE_SLOP_TIME_MS > now) {
                     return;
                 }
 
-                // reset the shake count after 3 seconds of no shakes
+                // Reset the shake count after 3 seconds of no shakes
                 if (shakeTimestamp + SHAKE_COUNT_RESET_TIME_MS < now) {
                     shakeCount = 0;
                 }
@@ -86,13 +86,12 @@ public class ShakeListener implements SensorInteractionListener {
                 shakeTimestamp = now;
                 shakeCount++;
 
+                // Shake direction has to change at least 3 times
                 if (shakeCount > 3) {
                     shakeListener.onShake();
                 }
             }
         }
     }
-
-
 
 }

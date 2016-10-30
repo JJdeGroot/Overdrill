@@ -2,35 +2,33 @@ package fr.ups.interactions.listeners;
 
 import android.content.Context;
 import android.media.MediaRecorder;
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * SoundListener: listens to sound.
  */
 public class SoundListener implements DeviceInteractionListener {
 
+    // DEBUG tag
     private static final String TAG = "SoundListener";
+
+    // Sound Listener settings
     private static final int POLL_FREQ_MS = 500;
     private static final int REQUIRED_AMPLITUDE = 30000;
 
     // OnSoundListener that is called when sound is detected.
     private OnSoundListener soundListener;
-    private int blowCount = 0;
-
-    // Audio recording
     private MediaRecorder mediaRecorder;
+
     private File directory;
+    private int blowCount = 0;
 
     /**
      * Constructor: passes internal storage directory
+     *
      * @param directory Reference to the local storage directory
      */
     public SoundListener(File directory) {
@@ -60,6 +58,7 @@ public class SoundListener implements DeviceInteractionListener {
 
     /**
      * Returns a location to store temporary audio files
+     *
      * @return Path to temporary audio file storage.
      */
     private String getFileLocation() {
@@ -97,16 +96,15 @@ public class SoundListener implements DeviceInteractionListener {
                 if (mediaRecorder != null) {
                     int amplitude = mediaRecorder.getMaxAmplitude();
 
-                    // Check for microphone blow
-                    if(amplitude > REQUIRED_AMPLITUDE) {
-                        Log.d(TAG, "ON MICROPHONE BLOW");
+                    if (amplitude > REQUIRED_AMPLITUDE) {
                         blowCount++;
                     }
 
-                    // Check for minimum three consequetive times
-                    if(blowCount >= 2) {
+                    if (blowCount > 3) {
+                        //Log.d(TAG, "ON MICROPHONE BLOW");
                         soundListener.onMicrophoneBlow();
-                    }else{
+
+                    } else {
                         handler.postDelayed(this, POLL_FREQ_MS);
                     }
                 }
@@ -121,12 +119,12 @@ public class SoundListener implements DeviceInteractionListener {
                 mediaRecorder.stop();
                 mediaRecorder.release();
                 mediaRecorder = null;
-            }catch(Exception e) {
+
+            } catch (Exception e) {
                 Log.d(TAG, "Error while cleaning up MediaRecorder");
                 e.printStackTrace();
             }
         }
-        mediaRecorder = null;
     }
 
 }

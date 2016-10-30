@@ -1,3 +1,4 @@
-fr.ups.sensoractions
-fr.ups.sensoractions.listeners
-fr.ups.sensoractions.utils
+fr.ups.interactions
+fr.ups.interactions.listeners
+fr.ups.interactions.model
+fr.ups.interactions.utils

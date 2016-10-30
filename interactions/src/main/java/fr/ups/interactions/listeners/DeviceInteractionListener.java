@@ -3,16 +3,21 @@ package fr.ups.interactions.listeners;
 import android.content.Context;
 
 /**
- * Interface for device actions
+ * Interface for phyical device action listeners
  */
 public interface DeviceInteractionListener extends InteractionListener {
+
     /**
-     * TODO
+     * Register the device specific action listener.
+     *
+     * @param context The Activity context
      */
     void register(Context context);
 
     /**
-     * TODO
+     * Deregister the device specific action listener.
+     *
+     * @param context The Activity context.
      */
     void deregister(Context context);
 }

@@ -2,18 +2,14 @@ package fr.ups.interactions;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import fr.ups.interactions.listeners.ButtonListener;
 import fr.ups.interactions.listeners.CameraListener;
 import fr.ups.interactions.listeners.LuxListener;
 import fr.ups.interactions.listeners.ShakeListener;
@@ -27,15 +23,18 @@ import fr.ups.interactions.model.InteractionManager;
  */
 public abstract class InteractionActivity extends PermissionActivity {
 
+    // DEBUG tag
     private static final String TAG = "InteractionActivity";
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    private Bitmap cameraBitmapImage;
-
-    private ArrayList<Interaction> interactions;
-
+    // Sensor instances
     private SensorManager sensorManager;
     private InteractionManager interactionManager;
+
+    // Permissions
+    private static final String[] permissions = {
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA,
+            Manifest.permission.VIBRATE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +43,6 @@ public abstract class InteractionActivity extends PermissionActivity {
         // Managers
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.interactionManager = new InteractionManager();
-
-        // Register interactions
-        this.interactions = getInteractions();
     }
 
     /**
@@ -55,13 +51,6 @@ public abstract class InteractionActivity extends PermissionActivity {
     protected void init() {
         // TODO: Notify interaction managers which interactions are possible with the permissions that we have
     }
-
-    /***
-     * Permissions
-     ***/
-
-    private static final String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
-    ///Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
     @Override
     protected String[] getRequiredPermissions() {
@@ -78,9 +67,7 @@ public abstract class InteractionActivity extends PermissionActivity {
         Toast.makeText(this, R.string.permissions_required, Toast.LENGTH_SHORT).show();
     }
 
-    /*****
-     * STATES
-     *****/
+    //----- STATES
 
     @Override
     protected void onStart() {
@@ -112,18 +99,19 @@ public abstract class InteractionActivity extends PermissionActivity {
     }
 
 
-    /***** INTERACTIONS *****/
+    //----- INTERACTIONS
 
     /**
-     * Returns a list of all enabled interactions
+     * Returns a list of all enabled interactions.
      *
      * @return List of Interaction objects.
+     * @See interactions.model.Interaction
      */
     protected abstract ArrayList<Interaction> getInteractions();
 
     /**
      * Registers the action listener based on the Interaction passed.
-     * The interaction reflects values from Interaction.class.
+     * The interaction reflects values from interactions.model.Interaction.
      */
     public void registerActionListener(Interaction interaction) {
         Log.d(TAG, "REGISTERING ACTION LISTENER: " + interaction);
@@ -150,11 +138,13 @@ public abstract class InteractionActivity extends PermissionActivity {
                 break;
 
             case COVER_FRONT_CAMERA:
-                registerCameraListener();
+                // TODO: Implement the listener
+                //registerCameraListener();
                 break;
 
             case COVER_REAR_CAMERA:
-                registerCameraListener();
+                // TODO: Implement the listener
+                //registerCameraListener();
                 break;
 
             case COVER_LIGHT_SENSOR:
@@ -183,6 +173,7 @@ public abstract class InteractionActivity extends PermissionActivity {
      */
     public void removeActionListeners() {
         Log.d(TAG, "REMOVING ALL ACTION LISTENERS");
+
         interactionManager.onPauseInteractions(sensorManager, this);
         interactionManager.removeAllInteractionListeners();
     }
@@ -195,6 +186,8 @@ public abstract class InteractionActivity extends PermissionActivity {
     protected abstract void handleInteraction(Interaction interaction);
 
 
+    //----- LISTENERS
+
     // SHAKE LISTENER
     private void registerShakeListener() {
         ShakeListener shakeListener = new ShakeListener();
@@ -204,6 +197,7 @@ public abstract class InteractionActivity extends PermissionActivity {
                 handleInteraction(Interaction.SHAKE_DEVICE);
             }
         });
+
         interactionManager.addInteractionListener(shakeListener);
     }
 
@@ -231,6 +225,7 @@ public abstract class InteractionActivity extends PermissionActivity {
                 handleInteraction(Interaction.TILT_DEVICE_RIGHT);
             }
         });
+
         interactionManager.addInteractionListener(tiltListener);
     }
 
@@ -276,8 +271,8 @@ public abstract class InteractionActivity extends PermissionActivity {
         handleInteraction(Interaction.PRESS_VOLUME_DOWN);
     }
 
-    // BUTTON LISTENER -- TODO: Is not used because onKeyDown event is fired and overridden.
-    private void registerButtonListener() {
+    // BUTTON LISTENER -- FIXME: Is not used because onKeyDown event is fired and overridden.
+   /* private void registerButtonListener() {
         ButtonListener buttonListener = new ButtonListener();
         buttonListener.setOnSensorActionListener(new ButtonListener.OnButtonListener() {
             @Override
@@ -291,7 +286,7 @@ public abstract class InteractionActivity extends PermissionActivity {
             }
         });
         //interactionManager.addInteractionListener(buttonListener);
-    }
+    }*/
 
     // LUX LISTENER
     private void registerLuxListener() {
@@ -303,6 +298,7 @@ public abstract class InteractionActivity extends PermissionActivity {
                 handleInteraction(Interaction.COVER_LIGHT_SENSOR);
             }
         });
+
         interactionManager.addInteractionListener(luxListener);
     }
 

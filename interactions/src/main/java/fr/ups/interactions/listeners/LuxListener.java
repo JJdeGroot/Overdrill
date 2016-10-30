@@ -24,7 +24,7 @@ public class LuxListener implements SensorInteractionListener {
     public interface OnLuxListener {
 
         /**
-         * TODO
+         * Callback function for when the light sensor gets covered.
          */
         void onLightDark();
     }
@@ -42,7 +42,6 @@ public class LuxListener implements SensorInteractionListener {
     public void onSensorChanged(SensorEvent se) {
         float lightQuantity = se.values[0];
 
-        //TODO CONSTANT
         if (lightQuantity < MAX_LIGHT_QUANTITY) {
             luxListener.onLightDark();
         }

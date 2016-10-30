@@ -1,7 +1,7 @@
 package fr.ups.interactions.listeners;
 
 /**
- * Interface for actions
+ * Interface for action listeners
  */
 public interface InteractionListener {
     // Left  blank on purpose.

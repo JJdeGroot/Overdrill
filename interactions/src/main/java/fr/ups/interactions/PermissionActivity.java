@@ -14,7 +14,10 @@ import java.util.Arrays;
  */
 public abstract class PermissionActivity extends AppCompatActivity {
 
+    // DEBUG tag
     private static final String TAG = "PermissionActivity";
+
+    // Permission code
     private static final int REQUEST_CODE_PERMISSIONS = 100;
 
     @Override
@@ -25,20 +28,22 @@ public abstract class PermissionActivity extends AppCompatActivity {
 
     /**
      * Returns a String array containing all permissions that are needed
+     *
      * @return Array of required permissions
      */
     protected abstract String[] getRequiredPermissions();
 
     /**
      * Returns a list containing all permissions that have not been granted
+     *
      * @return List of permissions yet to be granted
      */
     private String[] getUngrantedPermissions() {
         ArrayList<String> list = new ArrayList<String>();
 
-        for(String permission : getRequiredPermissions()) {
+        for (String permission : getRequiredPermissions()) {
             int granted = ActivityCompat.checkSelfPermission(this, permission);
-            if(granted != PackageManager.PERMISSION_GRANTED) {
+            if (granted != PackageManager.PERMISSION_GRANTED) {
                 list.add(permission);
             }
         }
@@ -52,7 +57,7 @@ public abstract class PermissionActivity extends AppCompatActivity {
     public boolean checkPermissions() {
         // Have all permissions been granted?
         String[] permissions = getUngrantedPermissions();
-        if(permissions.length == 0) {
+        if (permissions.length == 0) {
             onPermissionsGranted();
             return true;
         }
@@ -67,9 +72,9 @@ public abstract class PermissionActivity extends AppCompatActivity {
         Log.d(TAG, "Request code: " + requestCode + ", permissions: " + Arrays.toString(permissions) + ", grantResults: " + Arrays.toString(grantResults));
 
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if(arePermissionsGranted(grantResults)) {
+            if (arePermissionsGranted(grantResults)) {
                 onPermissionsGranted();
-            }else{
+            } else {
                 onUngrantedPermissions(permissions, grantResults);
             }
         }
@@ -77,12 +82,13 @@ public abstract class PermissionActivity extends AppCompatActivity {
 
     /**
      * Checks if all requested permissions are now granted
+     *
      * @param grantResults Grant results
      * @return True if all have been granted, false if not
      */
     private boolean arePermissionsGranted(int[] grantResults) {
-        for(int grantResult : grantResults) {
-            if(grantResult != PackageManager.PERMISSION_GRANTED) {
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }

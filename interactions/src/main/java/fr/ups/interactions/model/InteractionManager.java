@@ -16,10 +16,8 @@ import fr.ups.interactions.listeners.SensorInteractionListener;
  */
 public class InteractionManager {
 
+    // Listener list
     private List<InteractionListener> listeners = new ArrayList<>();
-
-    public InteractionManager() {
-    }
 
     /**
      * Adds an action listener to the listeners.
@@ -90,6 +88,5 @@ public class InteractionManager {
             }
         }
     }
-
 
 }

@@ -15,6 +15,7 @@ public class TiltListener implements SensorInteractionListener {
     // OnTiltListener that is called when tilt is detected.
     private OnTiltListener tiltListener;
 
+    // Tilt settings
     private static final int TILT_SLOP_TIME_MS = 500;
 
     private long tiltTimestamp;
@@ -76,7 +77,7 @@ public class TiltListener implements SensorInteractionListener {
 
             final long now = System.currentTimeMillis();
 
-            // ignore tilt events too close to each other (500ms)
+            // Ignore tilt events too close to each other
             if (tiltTimestamp + TILT_SLOP_TIME_MS > now) {
                 return;
             }
@@ -88,6 +89,7 @@ public class TiltListener implements SensorInteractionListener {
             if (xChange > 2) {
                 tiltListener.onTiltLeft();
                 Log.d("Tilt: ", "Left");
+
             } else if (xChange < -2) {
                 tiltListener.onTiltRight();
                 Log.d("Tilt: ", "Right");
@@ -96,6 +98,7 @@ public class TiltListener implements SensorInteractionListener {
             if (yChange > 2) {
                 tiltListener.onTiltUp();
                 Log.d("Tilt: ", "Up");
+
             } else if (yChange < -2) {
                 tiltListener.onTiltDown();
                 Log.d("Tilt: ", "Down");

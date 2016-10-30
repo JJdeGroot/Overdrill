@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import fr.ups.interactions.InteractionActivity;
 import fr.ups.interactions.model.Interaction;
 
 /**
@@ -247,7 +246,7 @@ public class TaskManager implements Runnable, TaskCallback, SettingsCallback {
         public void onFinish() {
             Log.d(TAG, "Countdown has finished, task failed.");
 
-            if(!cancelled) {
+            if (!cancelled) {
                 onTaskTimeout(task);
             }
         }

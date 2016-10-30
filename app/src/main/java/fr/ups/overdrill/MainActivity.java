@@ -6,20 +6,20 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 
+import fr.ups.interactions.InteractionActivity;
 import fr.ups.interactions.model.Interaction;
 import fr.ups.overdrill.database.DbHandler;
 import fr.ups.overdrill.game.Task;
@@ -27,7 +27,6 @@ import fr.ups.overdrill.game.TaskCallback;
 import fr.ups.overdrill.game.TaskManager;
 import fr.ups.overdrill.info.HiscoreActivity;
 import fr.ups.overdrill.info.InfoActivity;
-import fr.ups.interactions.InteractionActivity;
 
 /**
  * Main activity
@@ -196,6 +195,10 @@ public class MainActivity extends InteractionActivity implements TaskCallback {
         // Notify user
         ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
         toneGenerator.startTone(ToneGenerator.TONE_CDMA_HIGH_L, 150);
+
+        // Vibration feedback
+        Vibrator vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(300);
 
         // Show score
         score += timeLeft;
